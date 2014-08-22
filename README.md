@@ -11,7 +11,3 @@ To add this package as a local, per-project dependency to your project, simply a
             "sebastian/global-state": "*"
         }
     }
-
-### Usage
-
-
