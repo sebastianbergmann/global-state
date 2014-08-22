@@ -56,6 +56,11 @@ use ReflectionClass;
 class Snapshot
 {
     /**
+     * @var Blacklist
+     */
+    private $blacklist;
+
+    /**
      * @var array
      */
     private $globals = array();
@@ -107,9 +112,17 @@ class Snapshot
 
     /**
      * Creates a snapshot of the current global state.
+     *
+     * @param Blacklist $blacklist
      */
-    public function __construct()
+    public function __construct(Blacklist $blacklist = null)
     {
+        if ($blacklist === null) {
+            $blacklist = new Blacklist;
+        }
+
+        $this->blacklist = $blacklist;
+
         $this->snapshotConstants();
         $this->snapshotFunctions();
         $this->snapshotClasses();
@@ -197,7 +210,8 @@ class Snapshot
         foreach (array_keys($GLOBALS) as $key) {
             if ($key != 'GLOBALS' &&
                 !in_array($key, $superGlobalArrays) &&
-                !$GLOBALS[$key] instanceof Closure) {
+                !$GLOBALS[$key] instanceof Closure &&
+                !$this->blacklist->isGlobalVariableBlacklisted($key)) {
                 $this->globals[$key] = serialize($GLOBALS[$key]);
             }
         }
@@ -231,6 +245,10 @@ class Snapshot
             foreach ($class->getProperties() as $attribute) {
                 if ($attribute->isStatic()) {
                     $name = $attribute->getName();
+
+                    if ($this->blacklist->isStaticAttributeBlacklisted($className, $name)) {
+                        continue;
+                    }
 
                     $attribute->setAccessible(true);
                     $value = $attribute->getValue();
