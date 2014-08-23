@@ -89,7 +89,7 @@ class Blacklist
      */
     public function addGlobalVariable($variableName)
     {
-        $this->globalVariables[] = $variableName;
+        $this->globalVariables[$variableName] = true;
     }
 
     /**
@@ -134,7 +134,7 @@ class Blacklist
             $this->staticAttributes[$className] = array();
         }
 
-        $this->staticAttributes[$className][] = $attributeName;
+        $this->staticAttributes[$className][$attributeName] = true;
     }
 
     /**
@@ -143,7 +143,7 @@ class Blacklist
      */
     public function isGlobalVariableBlacklisted($variableName)
     {
-        return in_array($variableName, $this->globalVariables);
+        return isset($this->globalVariables[$variableName]);
     }
 
     /**
