@@ -44,6 +44,7 @@ namespace SebastianBergmann\GlobalState;
 
 use Closure;
 use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * A snapshot of global state.
@@ -139,6 +140,17 @@ class Snapshot
     }
 
     /**
+     * Restores all global and super-global variables as well as
+     * all static attributes in user-defined classes with the state
+     * stored in this snapshot.
+     */
+    public function restore()
+    {
+        $this->restoreGlobalVariables();
+        $this->restoreStaticAttributes();
+    }
+
+    /**
      * Creates a snapshot user-defined constants.
      */
     private function snapshotConstants()
@@ -218,6 +230,30 @@ class Snapshot
     }
 
     /**
+     * Restores all global and super-global variables from this snapshot.
+     */
+    private function restoreGlobalVariables()
+    {
+        $superGlobalArrays = $this->superGlobalArrays();
+
+        foreach ($superGlobalArrays as $superGlobalArray) {
+            $this->restoreSuperGlobalArray($superGlobalArray);
+        }
+
+        foreach (array_keys($GLOBALS) as $key) {
+            if ($key != 'GLOBALS' &&
+                !in_array($key, $superGlobalArrays) &&
+                !$this->blacklist->isGlobalVariableBlacklisted($key)) {
+                if (isset($this->globals[$key])) {
+                    $GLOBALS[$key] = unserialize($this->globals[$key]);
+                } else {
+                    unset($GLOBALS[$key]);
+                }
+            }
+        }
+    }
+
+    /**
      * Creates a snapshot a super-global variable array.
      *
      * @param $superGlobalArray
@@ -229,6 +265,35 @@ class Snapshot
         if (isset($GLOBALS[$superGlobalArray]) && is_array($GLOBALS[$superGlobalArray])) {
             foreach ($GLOBALS[$superGlobalArray] as $key => $value) {
                 $this->superGlobals[$superGlobalArray][$key] = serialize($value);
+            }
+        }
+    }
+
+    /**
+     * Restores a super-global variable array from this snapshot.
+     *
+     * @param $superGlobalArray
+     */
+    private function restoreSuperGlobalArray($superGlobalArray)
+    {
+        if (isset($GLOBALS[$superGlobalArray]) &&
+            is_array($GLOBALS[$superGlobalArray]) &&
+            isset($this->superGlobals[$superGlobalArray])) {
+            $keys = array_keys(
+                array_merge(
+                    $GLOBALS[$superGlobalArray],
+                    $this->superGlobals[$superGlobalArray]
+                )
+            );
+
+            foreach ($keys as $key) {
+                if (isset($this->superGlobals[$superGlobalArray][$key])) {
+                    $GLOBALS[$superGlobalArray][$key] = unserialize(
+                        $this->superGlobals[$superGlobalArray][$key]
+                    );
+                } else {
+                    unset($GLOBALS[$superGlobalArray][$key]);
+                }
             }
         }
     }
@@ -261,6 +326,20 @@ class Snapshot
 
             if (!empty($snapshot)) {
                 $this->staticAttributes[$className] = $snapshot;
+            }
+        }
+    }
+
+    /**
+     * Restores all static attributes in user-defined classes from this snapshot.
+     */
+    private function restoreStaticAttributes()
+    {
+        foreach ($this->staticAttributes as $className => $staticAttributes) {
+            foreach ($staticAttributes as $name => $value) {
+                $reflector = new ReflectionProperty($className, $name);
+                $reflector->setAccessible(true);
+                $reflector->setValue(unserialize($value));
             }
         }
     }
