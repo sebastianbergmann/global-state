@@ -98,7 +98,7 @@ class Snapshot
     /**
      * @var array
      */
-    private $classes = array();
+    private $functions = array();
 
     /**
      * @var array
@@ -108,7 +108,7 @@ class Snapshot
     /**
      * @var array
      */
-    private $functions = array();
+    private $classes = array();
 
     /**
      * @var array
@@ -184,6 +184,62 @@ class Snapshot
     public function staticAttributes()
     {
         return $this->staticAttributes;
+    }
+
+    /**
+     * @return array
+     */
+    public function iniSettings()
+    {
+        return $this->iniSettings;
+    }
+
+    /**
+     * @return array
+     */
+    public function includedFiles()
+    {
+        return $this->includedFiles;
+    }
+
+    /**
+     * @return array
+     */
+    public function constants()
+    {
+        return $this->constants;
+    }
+
+    /**
+     * @return array
+     */
+    public function functions()
+    {
+        return $this->functions;
+    }
+
+    /**
+     * @return array
+     */
+    public function interfaces()
+    {
+        return $this->interfaces;
+    }
+
+    /**
+     * @return array
+     */
+    public function classes()
+    {
+        return $this->classes;
+    }
+
+    /**
+     * @return array
+     */
+    public function traits()
+    {
+        return $this->traits;
     }
 
     /**
