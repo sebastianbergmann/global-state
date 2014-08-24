@@ -260,7 +260,7 @@ class Snapshot
                 !in_array($key, $superGlobalArrays) &&
                 !$GLOBALS[$key] instanceof Closure &&
                 !$this->blacklist->isGlobalVariableBlacklisted($key)) {
-                $this->globalVariables[$key] = serialize($GLOBALS[$key]);
+                $this->globalVariables[$key] = unserialize(serialize($GLOBALS[$key]));
             }
         }
     }
@@ -276,7 +276,7 @@ class Snapshot
 
         if (isset($GLOBALS[$superGlobalArray]) && is_array($GLOBALS[$superGlobalArray])) {
             foreach ($GLOBALS[$superGlobalArray] as $key => $value) {
-                $this->superGlobalVariables[$superGlobalArray][$key] = serialize($value);
+                $this->superGlobalVariables[$superGlobalArray][$key] = unserialize(serialize($value));
             }
         }
     }
@@ -302,7 +302,7 @@ class Snapshot
                     $value = $attribute->getValue();
 
                     if (!$value instanceof Closure) {
-                        $snapshot[$name] = serialize($value);
+                        $snapshot[$name] = unserialize(serialize($value));
                     }
                 }
             }

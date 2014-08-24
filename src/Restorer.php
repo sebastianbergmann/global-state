@@ -74,7 +74,7 @@ class Restorer
                 !in_array($key, $superGlobalArrays) &&
                 !$snapshot->blacklist()->isGlobalVariableBlacklisted($key)) {
                 if (isset($globalVariables[$key])) {
-                    $GLOBALS[$key] = unserialize($globalVariables[$key]);
+                    $GLOBALS[$key] = $globalVariables[$key];
                 } else {
                     unset($GLOBALS[$key]);
                 }
@@ -93,7 +93,7 @@ class Restorer
             foreach ($staticAttributes as $name => $value) {
                 $reflector = new ReflectionProperty($className, $name);
                 $reflector->setAccessible(true);
-                $reflector->setValue(unserialize($value));
+                $reflector->setValue($value);
             }
         }
     }
@@ -120,9 +120,7 @@ class Restorer
 
             foreach ($keys as $key) {
                 if (isset($superGlobalVariables[$superGlobalArray][$key])) {
-                    $GLOBALS[$superGlobalArray][$key] = unserialize(
-                        $superGlobalVariables[$superGlobalArray][$key]
-                    );
+                    $GLOBALS[$superGlobalArray][$key] = $superGlobalVariables[$superGlobalArray][$key];
                 } else {
                     unset($GLOBALS[$superGlobalArray][$key]);
                 }
