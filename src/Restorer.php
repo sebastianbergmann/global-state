@@ -43,6 +43,7 @@
 namespace SebastianBergmann\GlobalState;
 
 use ReflectionProperty;
+use Symfony\Component\Yaml\Exception\RuntimeException;
 
 /**
  * Restorer of snapshots of global state.
@@ -54,6 +55,26 @@ use ReflectionProperty;
  */
 class Restorer
 {
+    /**
+     * Deletes function definitions that are not defined in a snapshot.
+     *
+     * @param  Snapshot $snapshot
+     * @throws RuntimeException when the uopz_delete() function is not available
+     * @see    https://github.com/krakjoe/uopz
+     */
+    public function restoreFunctions(Snapshot $snapshot)
+    {
+        if (!function_exists('uopz_delete')) {
+            throw new RuntimeException('The uopz_delete() function is required for this operation');
+        }
+
+        $functions = get_defined_functions();
+
+        foreach (array_diff($functions['user'], $snapshot->functions()) as $function) {
+            uopz_delete($function);
+        }
+    }
+
     /**
      * Restores all global and super-global variables from a snapshot.
      *
