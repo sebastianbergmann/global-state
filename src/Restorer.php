@@ -83,6 +83,22 @@ class Restorer
     }
 
     /**
+     * Restores all static attributes in user-defined classes from this snapshot.
+     *
+     * @param Snapshot $snapshot
+     */
+    public function restoreStaticAttributes(Snapshot $snapshot)
+    {
+        foreach ($snapshot->staticAttributes() as $className => $staticAttributes) {
+            foreach ($staticAttributes as $name => $value) {
+                $reflector = new ReflectionProperty($className, $name);
+                $reflector->setAccessible(true);
+                $reflector->setValue(unserialize($value));
+            }
+        }
+    }
+
+    /**
      * Restores a super-global variable array from this snapshot.
      *
      * @param Snapshot $snapshot
@@ -110,22 +126,6 @@ class Restorer
                 } else {
                     unset($GLOBALS[$superGlobalArray][$key]);
                 }
-            }
-        }
-    }
-
-    /**
-     * Restores all static attributes in user-defined classes from this snapshot.
-     *
-     * @param Snapshot $snapshot
-     */
-    public function restoreStaticAttributes(Snapshot $snapshot)
-    {
-        foreach ($snapshot->staticAttributes() as $className => $staticAttributes) {
-            foreach ($staticAttributes as $name => $value) {
-                $reflector = new ReflectionProperty($className, $name);
-                $reflector->setAccessible(true);
-                $reflector->setValue(unserialize($value));
             }
         }
     }
