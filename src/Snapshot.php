@@ -258,7 +258,7 @@ class Snapshot
         foreach (array_keys($GLOBALS) as $key) {
             if ($key != 'GLOBALS' &&
                 !in_array($key, $superGlobalArrays) &&
-                !$GLOBALS[$key] instanceof Closure &&
+                $this->canBeSerialized($GLOBALS[$key]) &&
                 !$this->blacklist->isGlobalVariableBlacklisted($key)) {
                 $this->globalVariables[$key] = unserialize(serialize($GLOBALS[$key]));
             }
@@ -301,7 +301,7 @@ class Snapshot
                     $attribute->setAccessible(true);
                     $value = $attribute->getValue();
 
-                    if (!$value instanceof Closure) {
+                    if ($this->canBeSerialized($value)) {
                         $snapshot[$name] = unserialize(serialize($value));
                     }
                 }
@@ -343,5 +343,14 @@ class Snapshot
                 )
             );
         }
+    }
+
+    /**
+     * @param  mixed $variable
+     * @return boolean
+     * @todo   Implement this properly
+     */
+    private function canBeSerialized($variable) {
+        return !$variable instanceof Closure;
     }
 }
