@@ -68,6 +68,11 @@ class Snapshot
     /**
      * @var array
      */
+    private $superGlobalArrays = array();
+
+    /**
+     * @var array
+     */
     private $superGlobalVariables = array();
 
     /**
@@ -127,6 +132,7 @@ class Snapshot
         $this->snapshotFunctions();
         $this->snapshotClasses();
         $this->snapshotInterfaces();
+        $this->setupSuperGlobalArrays();
         $this->snapshotGlobals();
         $this->snapshotStaticAttributes();
 
@@ -169,31 +175,7 @@ class Snapshot
      */
     public function superGlobalArrays()
     {
-        $superGlobalArrays = array(
-            '_ENV',
-            '_POST',
-            '_GET',
-            '_COOKIE',
-            '_SERVER',
-            '_FILES',
-            '_REQUEST'
-        );
-
-        if (ini_get('register_long_arrays') == '1') {
-            $superGlobalArrays = array_merge(
-                $superGlobalArrays,
-                array(
-                    'HTTP_ENV_VARS',
-                    'HTTP_POST_VARS',
-                    'HTTP_GET_VARS',
-                    'HTTP_COOKIE_VARS',
-                    'HTTP_SERVER_VARS',
-                    'HTTP_POST_FILES'
-                )
-            );
-        }
-
-        return $superGlobalArrays;
+        return $this->superGlobalArrays;
     }
 
     /**
@@ -328,6 +310,38 @@ class Snapshot
             if (!empty($snapshot)) {
                 $this->staticAttributes[$className] = $snapshot;
             }
+        }
+    }
+
+    /**
+     * Returns a list of all super-global variable arrays.
+     *
+     * @return array
+     */
+    private function setupSuperGlobalArrays()
+    {
+        $this->superGlobalArrays = array(
+            '_ENV',
+            '_POST',
+            '_GET',
+            '_COOKIE',
+            '_SERVER',
+            '_FILES',
+            '_REQUEST'
+        );
+
+        if (ini_get('register_long_arrays') == '1') {
+            $this->superGlobalArrays = array_merge(
+                $this->superGlobalArrays,
+                array(
+                    'HTTP_ENV_VARS',
+                    'HTTP_POST_VARS',
+                    'HTTP_GET_VARS',
+                    'HTTP_COOKIE_VARS',
+                    'HTTP_SERVER_VARS',
+                    'HTTP_POST_FILES'
+                )
+            );
         }
     }
 }
