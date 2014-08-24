@@ -44,7 +44,6 @@ namespace SebastianBergmann\GlobalState;
 
 use Closure;
 use ReflectionClass;
-use ReflectionProperty;
 
 /**
  * A snapshot of global state.
@@ -64,12 +63,12 @@ class Snapshot
     /**
      * @var array
      */
-    private $globals = array();
+    private $globalVariables = array();
 
     /**
      * @var array
      */
-    private $superGlobals = array();
+    private $superGlobalVariables = array();
 
     /**
      * @var array
@@ -140,14 +139,69 @@ class Snapshot
     }
 
     /**
-     * Restores all global and super-global variables as well as
-     * all static attributes in user-defined classes with the state
-     * stored in this snapshot.
+     * @return Blacklist
      */
-    public function restore()
+    public function blacklist()
     {
-        $this->restoreGlobalVariables();
-        $this->restoreStaticAttributes();
+        return $this->blacklist;
+    }
+
+    /**
+     * @return array
+     */
+    public function globalVariables()
+    {
+        return $this->globalVariables;
+    }
+
+    /**
+     * @return array
+     */
+    public function superGlobalVariables()
+    {
+        return $this->superGlobalVariables;
+    }
+
+    /**
+     * Returns a list of all super-global variable arrays.
+     *
+     * @return array
+     */
+    public function superGlobalArrays()
+    {
+        $superGlobalArrays = array(
+            '_ENV',
+            '_POST',
+            '_GET',
+            '_COOKIE',
+            '_SERVER',
+            '_FILES',
+            '_REQUEST'
+        );
+
+        if (ini_get('register_long_arrays') == '1') {
+            $superGlobalArrays = array_merge(
+                $superGlobalArrays,
+                array(
+                    'HTTP_ENV_VARS',
+                    'HTTP_POST_VARS',
+                    'HTTP_GET_VARS',
+                    'HTTP_COOKIE_VARS',
+                    'HTTP_SERVER_VARS',
+                    'HTTP_POST_FILES'
+                )
+            );
+        }
+
+        return $superGlobalArrays;
+    }
+
+    /**
+     * @return array
+     */
+    public function staticAttributes()
+    {
+        return $this->staticAttributes;
     }
 
     /**
@@ -224,31 +278,7 @@ class Snapshot
                 !in_array($key, $superGlobalArrays) &&
                 !$GLOBALS[$key] instanceof Closure &&
                 !$this->blacklist->isGlobalVariableBlacklisted($key)) {
-                $this->globals[$key] = serialize($GLOBALS[$key]);
-            }
-        }
-    }
-
-    /**
-     * Restores all global and super-global variables from this snapshot.
-     */
-    private function restoreGlobalVariables()
-    {
-        $superGlobalArrays = $this->superGlobalArrays();
-
-        foreach ($superGlobalArrays as $superGlobalArray) {
-            $this->restoreSuperGlobalArray($superGlobalArray);
-        }
-
-        foreach (array_keys($GLOBALS) as $key) {
-            if ($key != 'GLOBALS' &&
-                !in_array($key, $superGlobalArrays) &&
-                !$this->blacklist->isGlobalVariableBlacklisted($key)) {
-                if (isset($this->globals[$key])) {
-                    $GLOBALS[$key] = unserialize($this->globals[$key]);
-                } else {
-                    unset($GLOBALS[$key]);
-                }
+                $this->globalVariables[$key] = serialize($GLOBALS[$key]);
             }
         }
     }
@@ -260,40 +290,11 @@ class Snapshot
      */
     private function snapshotSuperGlobalArray($superGlobalArray)
     {
-        $this->superGlobals[$superGlobalArray] = array();
+        $this->superGlobalVariables[$superGlobalArray] = array();
 
         if (isset($GLOBALS[$superGlobalArray]) && is_array($GLOBALS[$superGlobalArray])) {
             foreach ($GLOBALS[$superGlobalArray] as $key => $value) {
-                $this->superGlobals[$superGlobalArray][$key] = serialize($value);
-            }
-        }
-    }
-
-    /**
-     * Restores a super-global variable array from this snapshot.
-     *
-     * @param $superGlobalArray
-     */
-    private function restoreSuperGlobalArray($superGlobalArray)
-    {
-        if (isset($GLOBALS[$superGlobalArray]) &&
-            is_array($GLOBALS[$superGlobalArray]) &&
-            isset($this->superGlobals[$superGlobalArray])) {
-            $keys = array_keys(
-                array_merge(
-                    $GLOBALS[$superGlobalArray],
-                    $this->superGlobals[$superGlobalArray]
-                )
-            );
-
-            foreach ($keys as $key) {
-                if (isset($this->superGlobals[$superGlobalArray][$key])) {
-                    $GLOBALS[$superGlobalArray][$key] = unserialize(
-                        $this->superGlobals[$superGlobalArray][$key]
-                    );
-                } else {
-                    unset($GLOBALS[$superGlobalArray][$key]);
-                }
+                $this->superGlobalVariables[$superGlobalArray][$key] = serialize($value);
             }
         }
     }
@@ -328,52 +329,5 @@ class Snapshot
                 $this->staticAttributes[$className] = $snapshot;
             }
         }
-    }
-
-    /**
-     * Restores all static attributes in user-defined classes from this snapshot.
-     */
-    private function restoreStaticAttributes()
-    {
-        foreach ($this->staticAttributes as $className => $staticAttributes) {
-            foreach ($staticAttributes as $name => $value) {
-                $reflector = new ReflectionProperty($className, $name);
-                $reflector->setAccessible(true);
-                $reflector->setValue(unserialize($value));
-            }
-        }
-    }
-
-    /**
-     * Returns a list of all super-global variable arrays.
-     * @return array
-     */
-    private function superGlobalArrays()
-    {
-        $superGlobalArrays = array(
-            '_ENV',
-            '_POST',
-            '_GET',
-            '_COOKIE',
-            '_SERVER',
-            '_FILES',
-            '_REQUEST'
-        );
-
-        if (ini_get('register_long_arrays') == '1') {
-            $superGlobalArrays = array_merge(
-                $superGlobalArrays,
-                array(
-                    'HTTP_ENV_VARS',
-                    'HTTP_POST_VARS',
-                    'HTTP_GET_VARS',
-                    'HTTP_COOKIE_VARS',
-                    'HTTP_SERVER_VARS',
-                    'HTTP_POST_FILES'
-                )
-            );
-        }
-
-        return $superGlobalArrays;
     }
 }
