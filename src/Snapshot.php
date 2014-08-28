@@ -119,8 +119,17 @@ class Snapshot
      * Creates a snapshot of the current global state.
      *
      * @param Blacklist $blacklist
+     * @param boolean   $includeGlobalVariables
+     * @param boolean   $includeStaticAttributes
+     * @param boolean   $includeConstants
+     * @param boolean   $includeFunctions
+     * @param boolean   $includeClasses
+     * @param boolean   $includeInterfaces
+     * @param boolean   $includeTraits
+     * @param boolean   $includeIniSettings
+     * @param boolean   $includeIncludedFiles
      */
-    public function __construct(Blacklist $blacklist = null)
+    public function __construct(Blacklist $blacklist = null, $includeGlobalVariables = true, $includeStaticAttributes = true, $includeConstants = true, $includeFunctions = true, $includeClasses = true, $includeInterfaces = true, $includeTraits = true, $includeIniSettings = true, $includeIncludedFiles = true)
     {
         if ($blacklist === null) {
             $blacklist = new Blacklist;
@@ -128,16 +137,38 @@ class Snapshot
 
         $this->blacklist = $blacklist;
 
-        $this->snapshotConstants();
-        $this->snapshotFunctions();
-        $this->snapshotClasses();
-        $this->snapshotInterfaces();
-        $this->setupSuperGlobalArrays();
-        $this->snapshotGlobals();
-        $this->snapshotStaticAttributes();
+        if ($includeConstants) {
+            $this->snapshotConstants();
+        }
 
-        $this->iniSettings   = ini_get_all(null, false);
-        $this->includedFiles = get_included_files();
+        if ($includeFunctions) {
+            $this->snapshotFunctions();
+        }
+
+        if ($includeClasses) {
+            $this->snapshotClasses();
+        }
+
+        if ($includeInterfaces) {
+            $this->snapshotInterfaces();
+        }
+
+        if ($includeGlobalVariables) {
+            $this->setupSuperGlobalArrays();
+            $this->snapshotGlobals();
+        }
+
+        if ($includeStaticAttributes) {
+            $this->snapshotStaticAttributes();
+        }
+
+        if ($includeIniSettings) {
+            $this->iniSettings = ini_get_all(null, false);
+        }
+
+        if ($includeIncludedFiles) {
+            $this->includedFiles = get_included_files();
+        }
 
         if (function_exists('get_declared_traits')) {
             $this->traits = get_declared_traits();
