@@ -8,6 +8,6 @@ To add this package as a local, per-project dependency to your project, simply a
 
     {
         "require": {
-            "sebastian/global-state": "*"
+            "sebastian/global-state": "1.0.*"
         }
     }
