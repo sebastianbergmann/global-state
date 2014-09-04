@@ -145,7 +145,7 @@ class Snapshot
             $this->snapshotFunctions();
         }
 
-        if ($includeClasses) {
+        if ($includeClasses || $includeStaticAttributes) {
             $this->snapshotClasses();
         }
 
@@ -370,20 +370,10 @@ class Snapshot
 
     /**
      * Creates a snapshot of all static attributes in user-defined classes.
-     *
-     * @todo Properly decouple from snapshotClasses()
      */
     private function snapshotStaticAttributes()
     {
-        if (!empty($this->classes)) {
-            $classes = $this->classes;
-        } else {
-            $this->snapshotClasses();
-            $classes = $this->classes;
-            $this->classes = array();
-        }
-
-        foreach ($classes as $className) {
+        foreach ($this->classes as $className) {
             $class    = new ReflectionClass($className);
             $snapshot = array();
 
