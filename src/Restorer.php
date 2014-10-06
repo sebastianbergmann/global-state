@@ -43,7 +43,6 @@
 namespace SebastianBergmann\GlobalState;
 
 use ReflectionProperty;
-use Symfony\Component\Yaml\Exception\RuntimeException;
 
 /**
  * Restorer of snapshots of global state.
