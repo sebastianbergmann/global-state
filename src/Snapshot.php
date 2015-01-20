@@ -10,8 +10,8 @@
 
 namespace SebastianBergmann\GlobalState;
 
-use Closure;
 use ReflectionClass;
+use Serializable;
 
 /**
  * A snapshot of global state.
@@ -401,11 +401,24 @@ class Snapshot
     }
 
     /**
-     * @param  mixed $variable
+     * @param  mixed   $variable
      * @return boolean
      * @todo   Implement this properly
      */
-    private function canBeSerialized($variable) {
-        return !$variable instanceof Closure;
+    private function canBeSerialized($variable)
+    {
+        if (!is_object($variable)) {
+            return !is_resource($variable);
+        }
+
+        $class = new ReflectionClass($variable);
+
+        do {
+            if ($class->isInternal()) {
+                return $variable instanceof Serializable;
+            }
+        } while ($class = $class->getParentClass());
+
+        return true;
     }
 }

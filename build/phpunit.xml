@@ -13,4 +13,9 @@
       <directory suffix=".php">../src</directory>
     </whitelist>
   </filter>
+
+  <php>
+    <const name="GLOBALSTATE_TESTSUITE" value="true"/>
+    <ini name="serialize_precision" value="14"/>
+  </php>
 </phpunit>
