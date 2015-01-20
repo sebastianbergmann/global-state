@@ -53,7 +53,16 @@ class SnapshotTest extends PHPUnit_Framework_TestCase
         $snapshot = new Snapshot($this->getBlacklist(), false, false, false, true, false, false, false, false, false);
         $functions = $snapshot->functions();
 
-        $this->assertContains('sebastianbergmann\globalstate\testfixture\snapshotfunction', $functions);
+        $this->assertThat(
+            $functions,
+            $this->logicalOr(
+                // Zend
+                $this->contains('sebastianbergmann\globalstate\testfixture\snapshotfunction'),
+                // HHVM
+                $this->contains('SebastianBergmann\GlobalState\TestFixture\snapshotFunction')
+            )
+        );
+
         $this->assertNotContains('assert', $functions);
     }
 
@@ -91,8 +100,8 @@ class SnapshotTest extends PHPUnit_Framework_TestCase
         $snapshot = new Snapshot($this->getBlacklist(), false, false, false, false, false, false, false, true, false);
         $iniSettings = $snapshot->iniSettings();
 
-        $this->assertArrayHasKey('serialize_precision', $iniSettings);
-        $this->assertEquals('14', $iniSettings['serialize_precision']);
+        $this->assertArrayHasKey('date.timezone', $iniSettings);
+        $this->assertEquals('Etc/UTC', $iniSettings['date.timezone']);
     }
 
     public function testIncludedFiles()
