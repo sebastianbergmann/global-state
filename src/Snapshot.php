@@ -412,7 +412,7 @@ class Snapshot
             }
             $o = new \ReflectionObject($variable);
             $reflectionProperties = $o->getProperties(
-                ReflectionProperty::IS_STATIC | ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED
+                \ReflectionProperty::IS_STATIC | \ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED
             );
             foreach ($reflectionProperties as $p) {
                 if (!$this->canBeSerialized($p->getValue($variable))) {
