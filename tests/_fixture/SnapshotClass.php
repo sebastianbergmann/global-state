@@ -10,7 +10,7 @@
 
 namespace SebastianBergmann\GlobalState\TestFixture;
 
-use DomDocument;
+use DOMDocument;
 use ArrayObject;
 
 /**

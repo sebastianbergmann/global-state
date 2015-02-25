@@ -110,6 +110,27 @@ class SnapshotTest extends PHPUnit_Framework_TestCase
         $this->assertContains(__FILE__, $snapshot->includedFiles());
     }
 
+    public function testGlobalVariables()
+    {
+        $arrayHasClosure = array( 'foo' => array( 'a' => function () { return 'bar'; } ) );
+        $GLOBALS['normal_array_has_closure'] = $arrayHasClosure;
+
+        //TODO: change it to mockup?
+        $a = new \stdClass();
+        $a->a = array('x'=> function() {return 0;});
+        $a->public_property = array('x'=> function() {return 0;});
+        $classHasPrivateClosure = new \ReflectionObject($a);
+        $property = $classHasPrivateClosure->getProperty("a");
+        $property->setAccessible(false);
+        //
+
+        $GLOBALS['test_class_has_private_closure'] = $classHasPrivateClosure;
+
+        $snapshot = new Snapshot($this->getBlacklist(), true, false, false, false, false, false, false, false, false);
+        $this->assertNotContains($arrayHasClosure,$snapshot->globalVariables());
+        $this->assertNotContains($classHasPrivateClosure,$snapshot->globalVariables());
+    }
+
     /**
      * @return \SebastianBergmann\GlobalState\Blacklist
      */

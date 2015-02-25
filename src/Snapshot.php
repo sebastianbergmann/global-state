@@ -401,24 +401,29 @@ class Snapshot
     }
 
     /**
-     * @param  mixed   $variable
+     * @param  mixed $variable
      * @return boolean
-     * @todo   Implement this properly
      */
     private function canBeSerialized($variable)
     {
-        if (!is_object($variable)) {
-            return !is_resource($variable);
-        }
-
-        $class = new ReflectionClass($variable);
-
-        do {
-            if ($class->isInternal()) {
-                return $variable instanceof Serializable;
+        if (is_object($variable)) {
+            if ($variable instanceof \Closure) {
+                return false;
             }
-        } while ($class = $class->getParentClass());
-
-        return true;
+            $o = new \ReflectionObject($variable);
+            foreach ($o->getProperties() as $p) {
+                if (!$this->canBeSerialized($p->getValue($variable))) {
+                    return false;
+                }
+            }
+        }
+        if (is_array($variable)) {
+            foreach ($variable as $k => $v) {
+                if (!$this->canBeSerialized($v)) {
+                    return false;
+                }
+            }
+        }
+        return !is_resource($variable);
     }
 }
