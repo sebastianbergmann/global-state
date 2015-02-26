@@ -37,6 +37,7 @@ class SnapshotTest extends PHPUnit_Framework_TestCase
             'arrayObject' => new ArrayObject(array(1, 2, 3)),
         ));
 
+
         $this->assertEquals($expected, $snapshot->staticAttributes());
     }
 
@@ -127,8 +128,8 @@ class SnapshotTest extends PHPUnit_Framework_TestCase
         $GLOBALS['test_class_has_private_closure'] = $classHasPrivateClosure;
 
         $snapshot = new Snapshot($this->getBlacklist(), true, false, false, false, false, false, false, false, false);
-        $this->assertNotContains($arrayHasClosure,$snapshot->globalVariables());
-        $this->assertNotContains($classHasPrivateClosure,$snapshot->globalVariables());
+        $this->assertNotContains($arrayHasClosure, $snapshot->globalVariables());
+        $this->assertNotContains($classHasPrivateClosure, $snapshot->globalVariables());
     }
 
     /**

@@ -407,19 +407,18 @@ class Snapshot
     private function canBeSerialized($variable)
     {
         if (is_object($variable)) {
-            if ($variable instanceof \Closure) {
+            if (!$this->canBeSerializedClass($variable)) {
                 return false;
             }
             $o = new \ReflectionObject($variable);
-            $reflectionProperties = $o->getProperties(
-                \ReflectionProperty::IS_STATIC | \ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED
-            );
-            foreach ($reflectionProperties as $p) {
+            $properties = $o->getProperties(\ReflectionProperty::IS_STATIC | \ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED);
+            foreach ($properties as $p) {
                 if (!$this->canBeSerialized($p->getValue($variable))) {
                     return false;
                 }
             }
         }
+        // array check
         if (is_array($variable)) {
             foreach ($variable as $k => $v) {
                 if (!$this->canBeSerialized($v)) {
@@ -427,6 +426,31 @@ class Snapshot
                 }
             }
         }
+        // resource check
         return !is_resource($variable);
+    }
+
+    /**
+     * @link http://php.net/manual/en/function.serialize.php#refsect1-function.serialize-notes
+     * @line http://php.net/manual/en/language.oop5.serialization.php
+     * @param $variable
+     * @return bool
+     */
+    private function canBeSerializedClass($variable)
+    {
+        // false on closure
+        if ($variable instanceof \Closure) {
+            return false;
+        }
+        // false on internal & not implements serializable
+        $class = new ReflectionClass($variable);
+        if ($parent = $class->getParentClass()) {
+            if (!$this->canBeSerializedClass($parent->getName())) {
+                return false;
+            }
+        }
+        if ($class->isInternal()) {
+            return $class->implementsInterface('\Serializable');
+        }
     }
 }
