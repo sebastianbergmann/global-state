@@ -10,7 +10,7 @@
 
 namespace SebastianBergmann\GlobalState\TestFixture;
 
-use DomDocument;
+use DOMDocument;
 use ArrayObject;
 
 /**
@@ -30,7 +30,7 @@ class SnapshotClass
 
     public static function init()
     {
-        self::$dom = new DomDocument();
+        self::$dom = new DOMDocument();
         self::$closure = function () {};
         self::$arrayObject = new ArrayObject(array(1, 2, 3));
         self::$snapshotDomDocument = new SnapshotDomDocument();

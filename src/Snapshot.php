@@ -401,24 +401,56 @@ class Snapshot
     }
 
     /**
-     * @param  mixed   $variable
+     * @param  mixed $variable
      * @return boolean
-     * @todo   Implement this properly
      */
     private function canBeSerialized($variable)
     {
-        if (!is_object($variable)) {
-            return !is_resource($variable);
-        }
-
-        $class = new ReflectionClass($variable);
-
-        do {
-            if ($class->isInternal()) {
-                return $variable instanceof Serializable;
+        if (is_object($variable)) {
+            if (!$this->canBeSerializedClass($variable)) {
+                return false;
             }
-        } while ($class = $class->getParentClass());
+            $o = new \ReflectionObject($variable);
+            $properties = $o->getProperties(\ReflectionProperty::IS_STATIC | \ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED);
+            foreach ($properties as $p) {
+                if (!$this->canBeSerialized($p->getValue($variable))) {
+                    return false;
+                }
+            }
+        }
+        // array check
+        if (is_array($variable)) {
+            foreach ($variable as $k => $v) {
+                if (!$this->canBeSerialized($v)) {
+                    return false;
+                }
+            }
+        }
+        // resource check
+        return !is_resource($variable);
+    }
 
-        return true;
+    /**
+     * @link http://php.net/manual/en/function.serialize.php#refsect1-function.serialize-notes
+     * @line http://php.net/manual/en/language.oop5.serialization.php
+     * @param $variable
+     * @return bool
+     */
+    private function canBeSerializedClass($variable)
+    {
+        // false on closure
+        if ($variable instanceof \Closure) {
+            return false;
+        }
+        // false on internal & not implements serializable
+        $class = new ReflectionClass($variable);
+        if ($parent = $class->getParentClass()) {
+            if (!$this->canBeSerializedClass($parent->getName())) {
+                return false;
+            }
+        }
+        if ($class->isInternal()) {
+            return $class->implementsInterface('\Serializable');
+        }
     }
 }
