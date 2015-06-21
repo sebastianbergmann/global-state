@@ -72,11 +72,39 @@ class Restorer
      */
     public function restoreStaticAttributes(Snapshot $snapshot)
     {
+        $current    = new Snapshot($snapshot->blacklist(), false, false, false, false, true, false, false, false, false);
+        $newClasses = array_diff($current->classes(), $snapshot->classes());
+        unset($current);
+
         foreach ($snapshot->staticAttributes() as $className => $staticAttributes) {
             foreach ($staticAttributes as $name => $value) {
                 $reflector = new ReflectionProperty($className, $name);
                 $reflector->setAccessible(true);
                 $reflector->setValue($value);
+            }
+        }
+
+        foreach ($newClasses as $className) {
+            $class    = new \ReflectionClass($className);
+            $defaults = $class->getDefaultProperties();
+
+            foreach ($class->getProperties() as $attribute) {
+                if (!$attribute->isStatic()) {
+                    continue;
+                }
+
+                $name = $attribute->getName();
+
+                if ($snapshot->blacklist()->isStaticAttributeBlacklisted($className, $name)) {
+                    continue;
+                }
+
+                if (!isset($defaults[$name])) {
+                    continue;
+                }
+
+                $attribute->setAccessible(true);
+                $attribute->setValue($defaults[$name]);
             }
         }
     }
