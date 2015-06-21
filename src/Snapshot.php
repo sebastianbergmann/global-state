@@ -15,11 +15,6 @@ use Serializable;
 
 /**
  * A snapshot of global state.
- *
- * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
- * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/sebastianbergmann/global-state
  */
 class Snapshot
 {
@@ -87,15 +82,15 @@ class Snapshot
      * Creates a snapshot of the current global state.
      *
      * @param Blacklist $blacklist
-     * @param boolean   $includeGlobalVariables
-     * @param boolean   $includeStaticAttributes
-     * @param boolean   $includeConstants
-     * @param boolean   $includeFunctions
-     * @param boolean   $includeClasses
-     * @param boolean   $includeInterfaces
-     * @param boolean   $includeTraits
-     * @param boolean   $includeIniSettings
-     * @param boolean   $includeIncludedFiles
+     * @param bool      $includeGlobalVariables
+     * @param bool      $includeStaticAttributes
+     * @param bool      $includeConstants
+     * @param bool      $includeFunctions
+     * @param bool      $includeClasses
+     * @param bool      $includeInterfaces
+     * @param bool      $includeTraits
+     * @param bool      $includeIniSettings
+     * @param bool      $includeIncludedFiles
      */
     public function __construct(Blacklist $blacklist = null, $includeGlobalVariables = true, $includeStaticAttributes = true, $includeConstants = true, $includeFunctions = true, $includeClasses = true, $includeInterfaces = true, $includeTraits = true, $includeIniSettings = true, $includeIncludedFiles = true)
     {
@@ -401,8 +396,8 @@ class Snapshot
     }
 
     /**
-     * @param  mixed   $variable
-     * @return boolean
+     * @param  mixed $variable
+     * @return bool
      * @todo   Implement this properly
      */
     private function canBeSerialized($variable)

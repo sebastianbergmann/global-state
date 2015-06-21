@@ -14,11 +14,6 @@ use ReflectionClass;
 
 /**
  * A blacklist for global state elements that should not be snapshotted.
- *
- * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
- * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/sebastianbergmann/global-state
  */
 class Blacklist
 {
@@ -107,7 +102,7 @@ class Blacklist
 
     /**
      * @param  string $variableName
-     * @return boolean
+     * @return bool
      */
     public function isGlobalVariableBlacklisted($variableName)
     {
@@ -117,7 +112,7 @@ class Blacklist
     /**
      * @param  string $className
      * @param  string $attributeName
-     * @return boolean
+     * @return bool
      */
     public function isStaticAttributeBlacklisted($className, $attributeName)
     {

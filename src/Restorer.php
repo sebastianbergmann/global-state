@@ -14,18 +14,13 @@ use ReflectionProperty;
 
 /**
  * Restorer of snapshots of global state.
- *
- * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
- * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/sebastianbergmann/global-state
  */
 class Restorer
 {
     /**
      * Deletes function definitions that are not defined in a snapshot.
      *
-     * @param  Snapshot $snapshot
+     * @param  Snapshot         $snapshot
      * @throws RuntimeException when the uopz_delete() function is not available
      * @see    https://github.com/krakjoe/uopz
      */
