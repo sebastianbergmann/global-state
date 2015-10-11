@@ -31,6 +31,7 @@ class SnapshotTest extends PHPUnit_Framework_TestCase
         $expected = array('SebastianBergmann\GlobalState\TestFixture\SnapshotClass' => array(
             'string' => 'snapshot',
             'arrayObject' => new ArrayObject(array(1, 2, 3)),
+            'stdClass' => new \stdClass(),
         ));
 
         $this->assertEquals($expected, $snapshot->staticAttributes());
