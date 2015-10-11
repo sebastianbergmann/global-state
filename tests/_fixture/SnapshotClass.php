@@ -23,6 +23,7 @@ class SnapshotClass
     private static $arrayObject;
     private static $snapshotDomDocument;
     private static $resource;
+    private static $stdClass;
 
     public static function init()
     {
@@ -31,5 +32,6 @@ class SnapshotClass
         self::$arrayObject = new ArrayObject(array(1, 2, 3));
         self::$snapshotDomDocument = new SnapshotDomDocument();
         self::$resource = fopen('php://memory', 'r');
+        self::$stdClass = new \stdClass();
     }
 }
