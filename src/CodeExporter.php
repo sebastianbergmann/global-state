@@ -33,6 +33,21 @@ class CodeExporter
         return $result;
     }
 
+    public function globalVariables(Snapshot $snapshot): string
+    {
+        $result = '$GLOBALS = [];' . PHP_EOL;
+
+        foreach ($snapshot->globalVariables() as $name => $value) {
+            $result .= sprintf(
+                '$GLOBALS[%s] = %s;' . PHP_EOL,
+                $this->exportVariable($name),
+                $this->exportVariable($value)
+            );
+        }
+
+        return $result;
+    }
+
     public function iniSettings(Snapshot $snapshot): string
     {
         $result = '';
