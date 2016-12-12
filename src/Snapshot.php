@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace SebastianBergmann\GlobalState;
 
 use ReflectionClass;
@@ -26,73 +28,62 @@ class Snapshot
     /**
      * @var array
      */
-    private $globalVariables = array();
+    private $globalVariables = [];
 
     /**
      * @var array
      */
-    private $superGlobalArrays = array();
+    private $superGlobalArrays = [];
 
     /**
      * @var array
      */
-    private $superGlobalVariables = array();
+    private $superGlobalVariables = [];
 
     /**
      * @var array
      */
-    private $staticAttributes = array();
+    private $staticAttributes = [];
 
     /**
      * @var array
      */
-    private $iniSettings = array();
+    private $iniSettings = [];
 
     /**
      * @var array
      */
-    private $includedFiles = array();
+    private $includedFiles = [];
 
     /**
      * @var array
      */
-    private $constants = array();
+    private $constants = [];
 
     /**
      * @var array
      */
-    private $functions = array();
+    private $functions = [];
 
     /**
      * @var array
      */
-    private $interfaces = array();
+    private $interfaces = [];
 
     /**
      * @var array
      */
-    private $classes = array();
+    private $classes = [];
 
     /**
      * @var array
      */
-    private $traits = array();
+    private $traits = [];
 
     /**
      * Creates a snapshot of the current global state.
-     *
-     * @param Blacklist $blacklist
-     * @param bool      $includeGlobalVariables
-     * @param bool      $includeStaticAttributes
-     * @param bool      $includeConstants
-     * @param bool      $includeFunctions
-     * @param bool      $includeClasses
-     * @param bool      $includeInterfaces
-     * @param bool      $includeTraits
-     * @param bool      $includeIniSettings
-     * @param bool      $includeIncludedFiles
      */
-    public function __construct(Blacklist $blacklist = null, $includeGlobalVariables = true, $includeStaticAttributes = true, $includeConstants = true, $includeFunctions = true, $includeClasses = true, $includeInterfaces = true, $includeTraits = true, $includeIniSettings = true, $includeIncludedFiles = true)
+    public function __construct(Blacklist $blacklist = null, bool $includeGlobalVariables = true, bool $includeStaticAttributes = true, bool $includeConstants = true, bool $includeFunctions = true, bool $includeClasses = true, bool $includeInterfaces = true, bool $includeTraits = true, bool $includeIniSettings = true, bool $includeIncludedFiles = true)
     {
         if ($blacklist === null) {
             $blacklist = new Blacklist;
@@ -133,105 +124,65 @@ class Snapshot
             $this->includedFiles = get_included_files();
         }
 
-        if (function_exists('get_declared_traits')) {
-            $this->traits = get_declared_traits();
-        }
+        $this->traits = get_declared_traits();
     }
 
-    /**
-     * @return Blacklist
-     */
-    public function blacklist()
+    public function blacklist(): Blacklist
     {
         return $this->blacklist;
     }
 
-    /**
-     * @return array
-     */
-    public function globalVariables()
+    public function globalVariables(): array
     {
         return $this->globalVariables;
     }
 
-    /**
-     * @return array
-     */
-    public function superGlobalVariables()
+    public function superGlobalVariables(): array
     {
         return $this->superGlobalVariables;
     }
 
-    /**
-     * Returns a list of all super-global variable arrays.
-     *
-     * @return array
-     */
-    public function superGlobalArrays()
+    public function superGlobalArrays(): array
     {
         return $this->superGlobalArrays;
     }
 
-    /**
-     * @return array
-     */
-    public function staticAttributes()
+    public function staticAttributes(): array
     {
         return $this->staticAttributes;
     }
 
-    /**
-     * @return array
-     */
-    public function iniSettings()
+    public function iniSettings(): array
     {
         return $this->iniSettings;
     }
 
-    /**
-     * @return array
-     */
-    public function includedFiles()
+    public function includedFiles(): array
     {
         return $this->includedFiles;
     }
 
-    /**
-     * @return array
-     */
-    public function constants()
+    public function constants(): array
     {
         return $this->constants;
     }
 
-    /**
-     * @return array
-     */
-    public function functions()
+    public function functions(): array
     {
         return $this->functions;
     }
 
-    /**
-     * @return array
-     */
-    public function interfaces()
+    public function interfaces(): array
     {
         return $this->interfaces;
     }
 
-    /**
-     * @return array
-     */
-    public function classes()
+    public function classes(): array
     {
         return $this->classes;
     }
 
-    /**
-     * @return array
-     */
-    public function traits()
+    public function traits(): array
     {
         return $this->traits;
     }
@@ -317,12 +268,10 @@ class Snapshot
 
     /**
      * Creates a snapshot a super-global variable array.
-     *
-     * @param $superGlobalArray
      */
-    private function snapshotSuperGlobalArray($superGlobalArray)
+    private function snapshotSuperGlobalArray(string $superGlobalArray)
     {
-        $this->superGlobalVariables[$superGlobalArray] = array();
+        $this->superGlobalVariables[$superGlobalArray] = [];
 
         if (isset($GLOBALS[$superGlobalArray]) && is_array($GLOBALS[$superGlobalArray])) {
             foreach ($GLOBALS[$superGlobalArray] as $key => $value) {
@@ -338,7 +287,7 @@ class Snapshot
     {
         foreach ($this->classes as $className) {
             $class    = new ReflectionClass($className);
-            $snapshot = array();
+            $snapshot = [];
 
             foreach ($class->getProperties() as $attribute) {
                 if ($attribute->isStatic()) {
@@ -365,12 +314,10 @@ class Snapshot
 
     /**
      * Returns a list of all super-global variable arrays.
-     *
-     * @return array
      */
     private function setupSuperGlobalArrays()
     {
-        $this->superGlobalArrays = array(
+        $this->superGlobalArrays = [
             '_ENV',
             '_POST',
             '_GET',
@@ -378,29 +325,27 @@ class Snapshot
             '_SERVER',
             '_FILES',
             '_REQUEST'
-        );
+        ];
 
         if (ini_get('register_long_arrays') == '1') {
             $this->superGlobalArrays = array_merge(
                 $this->superGlobalArrays,
-                array(
+                [
                     'HTTP_ENV_VARS',
                     'HTTP_POST_VARS',
                     'HTTP_GET_VARS',
                     'HTTP_COOKIE_VARS',
                     'HTTP_SERVER_VARS',
                     'HTTP_POST_FILES'
-                )
+                ]
             );
         }
     }
 
     /**
-     * @param  mixed $variable
-     * @return bool
-     * @todo   Implement this properly
+     * @todo Implement this properly
      */
-    private function canBeSerialized($variable)
+    private function canBeSerialized($variable): bool
     {
         if (!is_object($variable)) {
             return !is_resource($variable);

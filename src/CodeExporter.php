@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace SebastianBergmann\GlobalState;
 
 /**
@@ -15,11 +17,7 @@ namespace SebastianBergmann\GlobalState;
  */
 class CodeExporter
 {
-    /**
-     * @param  Snapshot $snapshot
-     * @return string
-     */
-    public function constants(Snapshot $snapshot)
+    public function constants(Snapshot $snapshot): string
     {
         $result = '';
 
@@ -35,11 +33,7 @@ class CodeExporter
         return $result;
     }
 
-    /**
-     * @param  Snapshot $snapshot
-     * @return string
-     */
-    public function iniSettings(Snapshot $snapshot)
+    public function iniSettings(Snapshot $snapshot): string
     {
         $result = '';
 
@@ -54,11 +48,7 @@ class CodeExporter
         return $result;
     }
 
-    /**
-     * @param  mixed  $variable
-     * @return string
-     */
-    private function exportVariable($variable)
+    private function exportVariable($variable): string
     {
         if (is_scalar($variable) || is_null($variable) ||
             (is_array($variable) && $this->arrayOnlyContainsScalars($variable))) {
@@ -68,11 +58,7 @@ class CodeExporter
         return 'unserialize(' . var_export(serialize($variable), true) . ')';
     }
 
-    /**
-     * @param  array $array
-     * @return bool
-     */
-    private function arrayOnlyContainsScalars(array $array)
+    private function arrayOnlyContainsScalars(array $array): bool
     {
         $result = true;
 

@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace SebastianBergmann\GlobalState;
 
 use ReflectionProperty;
@@ -20,8 +22,8 @@ class Restorer
     /**
      * Deletes function definitions that are not defined in a snapshot.
      *
-     * @param  Snapshot         $snapshot
      * @throws RuntimeException when the uopz_delete() function is not available
+     *
      * @see    https://github.com/krakjoe/uopz
      */
     public function restoreFunctions(Snapshot $snapshot)
@@ -39,8 +41,6 @@ class Restorer
 
     /**
      * Restores all global and super-global variables from a snapshot.
-     *
-     * @param Snapshot $snapshot
      */
     public function restoreGlobalVariables(Snapshot $snapshot)
     {
@@ -67,13 +67,12 @@ class Restorer
 
     /**
      * Restores all static attributes in user-defined classes from this snapshot.
-     *
-     * @param Snapshot $snapshot
      */
     public function restoreStaticAttributes(Snapshot $snapshot)
     {
         $current    = new Snapshot($snapshot->blacklist(), false, false, false, false, true, false, false, false, false);
         $newClasses = array_diff($current->classes(), $snapshot->classes());
+
         unset($current);
 
         foreach ($snapshot->staticAttributes() as $className => $staticAttributes) {
@@ -111,11 +110,8 @@ class Restorer
 
     /**
      * Restores a super-global variable array from this snapshot.
-     *
-     * @param Snapshot $snapshot
-     * @param $superGlobalArray
      */
-    private function restoreSuperGlobalArray(Snapshot $snapshot, $superGlobalArray)
+    private function restoreSuperGlobalArray(Snapshot $snapshot, string $superGlobalArray)
     {
         $superGlobalVariables = $snapshot->superGlobalVariables();
 
