@@ -28,6 +28,12 @@ class SnapshotTest extends TestCase
      */
     private $blacklist;
 
+    public static function setUpBeforeClass()
+    {
+        $GLOBALS['varBool'] = false;
+        $GLOBALS['varNull'] = null;
+    }
+
     protected function setUp()
     {
         $this->blacklist = $this->createMock(Blacklist::class);
@@ -111,7 +117,32 @@ class SnapshotTest extends TestCase
     public function testIncludedFiles()
     {
         $snapshot = new Snapshot($this->blacklist, false, false, false, false, false, false, false, false, true);
-
         $this->assertContains(__FILE__, $snapshot->includedFiles());
+    }
+
+    /**
+     * Check global variable whose value is null are correctly backuped and restored.
+     *
+     * The real test is the second, but the first has to be executed to backup the globals.
+     *
+     * @backupGlobals enabled
+     */
+    public function testNullGlobalVariable()
+    {
+	$this->assertEquals(false, $GLOBALS['varBool']);
+        $this->assertArrayHasKey('varNull', $GLOBALS);
+        $this->assertEquals(null, $GLOBALS['varNull']);
+    }
+
+    /**
+     * Check global variable whose value is null are correctly backuped and restored.
+     *
+     * @depends testNullGlobalVariable
+     */
+    public function testNullGlobalVariable2()
+    {
+	$this->assertEquals(false, $GLOBALS['varBool']);
+        $this->assertArrayHasKey('varNull', $GLOBALS);
+        $this->assertEquals(null, $GLOBALS['varNull']);
     }
 }
