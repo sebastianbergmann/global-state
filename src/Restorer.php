@@ -56,7 +56,7 @@ class Restorer
             if ($key != 'GLOBALS' &&
                 !in_array($key, $superGlobalArrays) &&
                 !$snapshot->blacklist()->isGlobalVariableBlacklisted($key)) {
-                if (isset($globalVariables[$key])) {
+                if (array_key_exists($key, $globalVariables)) {
                     $GLOBALS[$key] = $globalVariables[$key];
                 } else {
                     unset($GLOBALS[$key]);
