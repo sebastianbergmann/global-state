@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the GlobalState package.
+ * This file is part of sebastian/global-state.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -12,10 +12,7 @@ declare(strict_types=1);
 
 namespace SebastianBergmann\GlobalState;
 
-use ArrayObject;
-use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
-use SebastianBergmann\GlobalState\TestFixture\SnapshotClass;
 
 /**
  * @covers \SebastianBergmann\GlobalState\CodeExporter

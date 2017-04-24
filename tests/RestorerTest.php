@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the GlobalState package.
+ * This file is part of sebastian/global-state.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -23,7 +23,7 @@ class RestorerTest extends TestCase
     {
         $GLOBALS['varBool'] = false;
         $GLOBALS['varNull'] = null;
-        $_GET['varGet'] = 0;
+        $_GET['varGet']     = 0;
     }
 
     /**
@@ -31,6 +31,7 @@ class RestorerTest extends TestCase
      *
      * @covers \SebastianBergmann\GlobalState\Restorer::restoreGlobalVariables
      * @covers \SebastianBergmann\GlobalState\Restorer::restoreSuperGlobalArray
+     *
      * @uses \SebastianBergmann\GlobalState\Blacklist::isGlobalVariableBlacklisted
      * @uses \SebastianBergmann\GlobalState\Snapshot::__construct
      * @uses \SebastianBergmann\GlobalState\Snapshot::blacklist
@@ -64,6 +65,7 @@ class RestorerTest extends TestCase
      * @backupGlobals enabled
      * @covers \SebastianBergmann\GlobalState\Restorer::restoreGlobalVariables
      * @covers \SebastianBergmann\GlobalState\Restorer::restoreSuperGlobalArray
+     *
      * @uses \SebastianBergmann\GlobalState\Blacklist::addClassNamePrefix
      * @uses \SebastianBergmann\GlobalState\Blacklist::isGlobalVariableBlacklisted
      * @uses \SebastianBergmann\GlobalState\Snapshot::__construct

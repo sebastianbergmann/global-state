@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the GlobalState package.
+ * This file is part of sebastian/global-state.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -31,7 +31,7 @@ class SnapshotClass
         self::$closure             = function () {};
         self::$arrayObject         = new ArrayObject([1, 2, 3]);
         self::$snapshotDomDocument = new SnapshotDomDocument();
-        self::$resource            = fopen('php://memory', 'r');
+        self::$resource            = \fopen('php://memory', 'r');
         self::$stdClass            = new \stdClass();
     }
 }

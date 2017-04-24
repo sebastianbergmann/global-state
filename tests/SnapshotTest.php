@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the GlobalState package.
+ * This file is part of sebastian/global-state.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -92,7 +92,7 @@ class SnapshotTest extends TestCase
 
     public function testTraits()
     {
-        spl_autoload_call('SebastianBergmann\GlobalState\TestFixture\SnapshotTrait');
+        \spl_autoload_call('SebastianBergmann\GlobalState\TestFixture\SnapshotTrait');
 
         $snapshot = new Snapshot($this->blacklist, false, false, false, false, false, false, true, false, false);
 

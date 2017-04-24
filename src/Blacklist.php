@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the GlobalState package.
+ * This file is part of sebastian/global-state.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -90,12 +90,12 @@ class Blacklist
 
     public function isStaticAttributeBlacklisted(string $className, string $attributeName): bool
     {
-        if (in_array($className, $this->classes)) {
+        if (\in_array($className, $this->classes)) {
             return true;
         }
 
         foreach ($this->classNamePrefixes as $prefix) {
-            if (strpos($className, $prefix) === 0) {
+            if (\strpos($className, $prefix) === 0) {
                 return true;
             }
         }
