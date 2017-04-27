@@ -10,7 +10,6 @@
             "email": "sebastian@phpunit.de"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": "^7.0"
     },
