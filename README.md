@@ -1,4 +1,4 @@
-# GlobalState
+# global-state
 
 Snapshotting of global state, factored out of PHPUnit into a stand-alone component.
 

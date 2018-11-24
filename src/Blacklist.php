@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of sebastian/global-state.
  *
@@ -7,17 +7,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
 namespace SebastianBergmann\GlobalState;
-
-use ReflectionClass;
 
 /**
  * A blacklist for global state elements that should not be snapshotted.
  */
-class Blacklist
+final class Blacklist
 {
     /**
      * @var array
@@ -49,32 +44,32 @@ class Blacklist
      */
     private $staticAttributes = [];
 
-    public function addGlobalVariable(string $variableName)
+    public function addGlobalVariable(string $variableName): void
     {
         $this->globalVariables[$variableName] = true;
     }
 
-    public function addClass(string $className)
+    public function addClass(string $className): void
     {
         $this->classes[] = $className;
     }
 
-    public function addSubclassesOf(string $className)
+    public function addSubclassesOf(string $className): void
     {
         $this->parentClasses[] = $className;
     }
 
-    public function addImplementorsOf(string $interfaceName)
+    public function addImplementorsOf(string $interfaceName): void
     {
         $this->interfaces[] = $interfaceName;
     }
 
-    public function addClassNamePrefix(string $classNamePrefix)
+    public function addClassNamePrefix(string $classNamePrefix): void
     {
         $this->classNamePrefixes[] = $classNamePrefix;
     }
 
-    public function addStaticAttribute(string $className, string $attributeName)
+    public function addStaticAttribute(string $className, string $attributeName): void
     {
         if (!isset($this->staticAttributes[$className])) {
             $this->staticAttributes[$className] = [];
@@ -100,7 +95,7 @@ class Blacklist
             }
         }
 
-        $class = new ReflectionClass($className);
+        $class = new \ReflectionClass($className);
 
         foreach ($this->parentClasses as $type) {
             if ($class->isSubclassOf($type)) {
