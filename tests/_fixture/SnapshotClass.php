@@ -11,28 +11,25 @@ namespace SebastianBergmann\GlobalState\TestFixture;
 
 class SnapshotClass
 {
-    private static $string = 'snapshot';
+    private static $string = 'string';
 
-    private static $dom;
+    private static $closures = [];
 
-    private static $closure;
+    private static $files = [];
 
-    private static $arrayObject;
+    private static $resources = [];
 
-    private static $snapshotDomDocument;
-
-    private static $resource;
-
-    private static $stdClass;
+    private static $objects = [];
 
     public static function init(): void
     {
-        self::$dom                 = new \DomDocument;
-        self::$closure             = function (): void {
+        self::$closures[] = function (): void {
         };
-        self::$arrayObject         = new \ArrayObject([1, 2, 3]);
-        self::$snapshotDomDocument = new SnapshotDomDocument;
-        self::$resource            = \fopen('php://memory', 'r');
-        self::$stdClass            = new \stdClass;
+
+        self::$files[] = new \SplFileInfo(__FILE__);
+
+        self::$resources[] = \fopen('php://memory', 'r');
+
+        self::$objects[] = new \stdClass;
     }
 }

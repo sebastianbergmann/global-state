@@ -16,7 +16,9 @@
         "sort-packages": true
     },
     "require": {
-        "php": "^7.2"
+        "php": "^7.2",
+        "sebastian/object-reflector": "^1.1.1",
+        "sebastian/recursion-context": "^3.0"
     },
     "require-dev": {
         "ext-dom": "*",

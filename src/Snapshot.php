@@ -9,6 +9,9 @@
  */
 namespace SebastianBergmann\GlobalState;
 
+use SebastianBergmann\ObjectReflector\ObjectReflector;
+use SebastianBergmann\RecursionContext\Context;
+
 /**
  * A snapshot of global state.
  */
@@ -18,6 +21,35 @@ class Snapshot
      * @var Blacklist
      */
     private $blacklist;
+
+    /**
+     * @var array Classes with zend_class_serialize_deny
+     */
+    private $notSerializableClasses = [
+        'closure'                    => true,
+        'com'                        => true,
+        'dotnet'                     => true,
+        'generator'                  => true,
+        'hashcontext'                => true,
+        'reflection'                 => true,
+        'reflectionclass'            => true,
+        'reflectionclassconstant'    => true,
+        'reflectionextension'        => true,
+        'reflectionexception'        => true,
+        'reflectionfunction'         => true,
+        'reflectionfunctionabstract' => true,
+        'reflectiongenerator'        => true,
+        'reflectionmethod'           => true,
+        'reflectionnamedtype'        => true,
+        'reflectionobject'           => true,
+        'reflectionparameter'        => true,
+        'reflectionproperty'         => true,
+        'reflectiontype'             => true,
+        'reflectionzendextension'    => true,
+        'simplexmlelement'           => true,
+        'splfileinfo'                => true,
+        'variant'                    => true,
+    ];
 
     /**
      * @var array
@@ -255,6 +287,7 @@ class Snapshot
                 !\in_array($key, $superGlobalArrays) &&
                 $this->canBeSerialized($GLOBALS[$key]) &&
                 !$this->blacklist->isGlobalVariableBlacklisted($key)) {
+                /** @noinspection UnserializeExploitsInspection */
                 $this->globalVariables[$key] = \unserialize(\serialize($GLOBALS[$key]));
             }
         }
@@ -269,6 +302,7 @@ class Snapshot
 
         if (isset($GLOBALS[$superGlobalArray]) && \is_array($GLOBALS[$superGlobalArray])) {
             foreach ($GLOBALS[$superGlobalArray] as $key => $value) {
+                /** @noinspection UnserializeExploitsInspection */
                 $this->superGlobalVariables[$superGlobalArray][$key] = \unserialize(\serialize($value));
             }
         }
@@ -295,6 +329,7 @@ class Snapshot
                     $value = $attribute->getValue();
 
                     if ($this->canBeSerialized($value)) {
+                        /** @noinspection UnserializeExploitsInspection */
                         $snapshot[$name] = \unserialize(\serialize($value));
                     }
                 }
@@ -322,27 +357,90 @@ class Snapshot
         ];
     }
 
-    /**
-     * @todo Implement this properly
-     */
     private function canBeSerialized($variable): bool
     {
-        if (!\is_object($variable)) {
-            return !\is_resource($variable);
-        }
-
-        if ($variable instanceof \stdClass) {
+        if (\is_scalar($variable) || $variable === null) {
             return true;
         }
 
-        $class = new ReflectionClass($variable);
+        if (\is_resource($variable)) {
+            return false;
+        }
 
-        do {
-            if ($class->isInternal()) {
-                return $variable instanceof Serializable;
+        foreach ($this->enumerateObjectsAndResources($variable) as $value) {
+            if (\is_resource($value)) {
+                return false;
             }
-        } while ($class = $class->getParentClass());
+
+            if (\is_object($value)) {
+                $class = new \ReflectionClass($value);
+
+                if ($class->isAnonymous()) {
+                    return false;
+                }
+
+                if ($class->isInternal() && isset($this->notSerializableClasses[\strtolower($class->getName())])) {
+                    return false;
+                }
+            }
+        }
 
         return true;
+    }
+
+    private function enumerateObjectsAndResources($variable): array
+    {
+        if (isset(\func_get_args()[1])) {
+            $processed = \func_get_args()[1];
+        } else {
+            $processed = new Context;
+        }
+
+        $result = [];
+
+        if ($processed->contains($variable)) {
+            return $result;
+        }
+
+        $array = $variable;
+        $processed->add($variable);
+
+        if (\is_array($variable)) {
+            foreach ($array as $element) {
+                if (!\is_array($element) && !\is_object($element) && !\is_resource($element)) {
+                    continue;
+                }
+
+                if (!\is_resource($element)) {
+                    /** @noinspection SlowArrayOperationsInLoopInspection */
+                    $result = \array_merge(
+                        $result,
+                        $this->enumerateObjectsAndResources($element, $processed)
+                    );
+                } else {
+                    $result[] = $element;
+                }
+            }
+        } else {
+            $result[] = $variable;
+
+            foreach ((new ObjectReflector)->getAttributes($variable) as $value) {
+                if (!\is_array($value) && !\is_object($value) && !\is_resource($value)) {
+                    continue;
+                }
+
+                if (!\is_resource($value)) {
+                    /** @noinspection SlowArrayOperationsInLoopInspection */
+                    $result = \array_merge(
+                        $result,
+                        $this->enumerateObjectsAndResources($value, $processed)
+                    );
+                } else {
+                    $result[] = $value;
+                }
+            }
+        }
+
+        return $result;
     }
 }

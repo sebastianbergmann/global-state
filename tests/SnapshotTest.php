@@ -41,9 +41,8 @@ final class SnapshotTest extends TestCase
 
         $expected = [
             SnapshotClass::class => [
-                'string'      => 'snapshot',
-                'arrayObject' => new \ArrayObject([1, 2, 3]),
-                'stdClass'    => new \stdClass,
+                'string'  => 'string',
+                'objects' => [new \stdClass],
             ],
         ];
 

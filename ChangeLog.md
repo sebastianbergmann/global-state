@@ -4,6 +4,10 @@ All notable changes in `sebastian/global-state` are documented in this file usin
 
 ## [3.0.0] - 2018-MM-DD
 
+### Changed
+
+* `Snapshot::canBeSerialized()` now recursively checks arrays and object graphs for variables that cannot be serialized
+
 ### Removed
 
 * This component is no longer supported on PHP 7.0
