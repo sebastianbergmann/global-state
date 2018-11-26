@@ -32,6 +32,7 @@ class Snapshot
         'dotnet'                     => true,
         'generator'                  => true,
         'hashcontext'                => true,
+        'pdo'                        => true,
         'reflection'                 => true,
         'reflectionclass'            => true,
         'reflectionclassconstant'    => true,
