@@ -33,6 +33,7 @@ class Snapshot
         'generator'                  => true,
         'hashcontext'                => true,
         'pdo'                        => true,
+        'pdostatement'               => true,
         'reflection'                 => true,
         'reflectionclass'            => true,
         'reflectionclassconstant'    => true,
