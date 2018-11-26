@@ -11,6 +11,7 @@
         }
     ],
     "prefer-stable": true,
+    "minimum-stability": "dev",
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true
@@ -22,7 +23,7 @@
     },
     "require-dev": {
         "ext-dom": "*",
-        "phpunit/phpunit": "^7.4"
+        "phpunit/phpunit": "^8.0"
     },
     "suggest": {
         "ext-uopz": "*"
