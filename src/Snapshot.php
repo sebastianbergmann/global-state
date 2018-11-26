@@ -23,38 +23,6 @@ class Snapshot
     private $blacklist;
 
     /**
-     * @var array Classes with zend_class_serialize_deny
-     */
-    private $notSerializableClasses = [
-        'closure'                    => true,
-        'com'                        => true,
-        'curlfile'                   => true,
-        'dotnet'                     => true,
-        'generator'                  => true,
-        'hashcontext'                => true,
-        'pdo'                        => true,
-        'pdostatement'               => true,
-        'reflection'                 => true,
-        'reflectionclass'            => true,
-        'reflectionclassconstant'    => true,
-        'reflectionextension'        => true,
-        'reflectionexception'        => true,
-        'reflectionfunction'         => true,
-        'reflectionfunctionabstract' => true,
-        'reflectiongenerator'        => true,
-        'reflectionmethod'           => true,
-        'reflectionnamedtype'        => true,
-        'reflectionobject'           => true,
-        'reflectionparameter'        => true,
-        'reflectionproperty'         => true,
-        'reflectiontype'             => true,
-        'reflectionzendextension'    => true,
-        'simplexmlelement'           => true,
-        'splfileinfo'                => true,
-        'variant'                    => true,
-    ];
-
-    /**
      * @var array
      */
     private $globalVariables = [];
@@ -382,7 +350,9 @@ class Snapshot
                     return false;
                 }
 
-                if ($class->isInternal() && isset($this->notSerializableClasses[\strtolower($class->getName())])) {
+                try {
+                    @\serialize($value);
+                } catch (\Throwable $t) {
                     return false;
                 }
             }
