@@ -28,6 +28,7 @@ class Snapshot
     private $notSerializableClasses = [
         'closure'                    => true,
         'com'                        => true,
+        'curlfile'                   => true,
         'dotnet'                     => true,
         'generator'                  => true,
         'hashcontext'                => true,
