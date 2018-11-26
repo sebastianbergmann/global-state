@@ -10,7 +10,7 @@ All notable changes in `sebastian/global-state` are documented in this file usin
 
 ### Removed
 
-* This component is no longer supported on PHP 7.0
+* This component is no longer supported on PHP 7.0 and PHP 7.1
 
 [3.0.0]: https://github.com/sebastianbergmann/phpunit/compare/2.0.0...3.0.0
 
