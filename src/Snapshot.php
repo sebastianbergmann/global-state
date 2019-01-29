@@ -258,7 +258,7 @@ class Snapshot
                 !\in_array($key, $superGlobalArrays) &&
                 $this->canBeSerialized($GLOBALS[$key]) &&
                 !$this->blacklist->isGlobalVariableBlacklisted($key)) {
-                /** @noinspection UnserializeExploitsInspection */
+                /* @noinspection UnserializeExploitsInspection */
                 $this->globalVariables[$key] = \unserialize(\serialize($GLOBALS[$key]));
             }
         }
@@ -273,7 +273,7 @@ class Snapshot
 
         if (isset($GLOBALS[$superGlobalArray]) && \is_array($GLOBALS[$superGlobalArray])) {
             foreach ($GLOBALS[$superGlobalArray] as $key => $value) {
-                /** @noinspection UnserializeExploitsInspection */
+                /* @noinspection UnserializeExploitsInspection */
                 $this->superGlobalVariables[$superGlobalArray][$key] = \unserialize(\serialize($value));
             }
         }
@@ -300,7 +300,7 @@ class Snapshot
                     $value = $attribute->getValue();
 
                     if ($this->canBeSerialized($value)) {
-                        /** @noinspection UnserializeExploitsInspection */
+                        /* @noinspection UnserializeExploitsInspection */
                         $snapshot[$name] = \unserialize(\serialize($value));
                     }
                 }
