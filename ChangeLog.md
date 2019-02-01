@@ -2,7 +2,7 @@
 
 All notable changes in `sebastian/global-state` are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [3.0.0] - 2018-MM-DD
+## [3.0.0] - 2019-02-01
 
 ### Changed
 
