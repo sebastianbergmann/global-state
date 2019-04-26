@@ -76,6 +76,8 @@ final class SnapshotTest extends TestCase
 
     public function testInterfaces(): void
     {
+        $this->blacklist->addClass(BlacklistedInterface::class);
+
         $snapshot   = new Snapshot($this->blacklist, false, false, false, false, false, true, false, false, false);
         $interfaces = $snapshot->interfaces();
 
