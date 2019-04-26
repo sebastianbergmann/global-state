@@ -82,7 +82,7 @@ class Snapshot
      */
     public function __construct(Blacklist $blacklist = null, bool $includeGlobalVariables = true, bool $includeStaticAttributes = true, bool $includeConstants = true, bool $includeFunctions = true, bool $includeClasses = true, bool $includeInterfaces = true, bool $includeTraits = true, bool $includeIniSettings = true, bool $includeIncludedFiles = true)
     {
-        $this->blacklist = $blacklist ?: new Blacklist();
+        $this->blacklist = $blacklist ?: new Blacklist;
 
         if ($includeConstants) {
             $this->snapshotConstants();
