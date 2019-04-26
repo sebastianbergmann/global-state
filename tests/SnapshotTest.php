@@ -49,6 +49,51 @@ final class SnapshotTest extends TestCase
         $this->assertEquals($expected, $snapshot->staticAttributes());
     }
 
+    public function testConstructorExcludesAspectsWhenTheyShouldNotBeIncluded(): void
+    {
+        $snapshot = new Snapshot(
+            $this->blacklist,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+        );
+
+        $this->assertEmpty($snapshot->constants());
+        $this->assertEmpty($snapshot->functions());
+        $this->assertEmpty($snapshot->globalVariables());
+        $this->assertEmpty($snapshot->includedFiles());
+        $this->assertEmpty($snapshot->iniSettings());
+        $this->assertEmpty($snapshot->interfaces());
+        $this->assertEmpty($snapshot->staticAttributes());
+        $this->assertEmpty($snapshot->superGlobalArrays());
+        $this->assertEmpty($snapshot->superGlobalVariables());
+        $this->assertEmpty($snapshot->traits());
+    }
+
+    public function testBlacklistCanBeAccessed(): void
+    {
+        $snapshot = new Snapshot(
+            $this->blacklist,
+            false,
+            false,
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+        );
+
+        $this->assertSame($this->blacklist, $snapshot->blacklist());
+    }
+
     public function testConstants(): void
     {
         $snapshot = new Snapshot($this->blacklist, false, false, true, false, false, false, false, false, false);
