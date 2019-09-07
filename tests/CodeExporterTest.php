@@ -54,4 +54,21 @@ final class CodeExporterTest extends TestCase
             $export
         );
     }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testCanExportConstantsToCode(): void
+    {
+        define('FOO', 'BAR');
+
+        $snapshot = new Snapshot(null, false, false, true, false, false, false, false, false, false);
+
+        $exporter = new CodeExporter;
+
+        $this->assertStringContainsString(
+            "if (!defined('FOO')) define('FOO', 'BAR');",
+            $exporter->constants($snapshot)
+        );
+    }
 }
