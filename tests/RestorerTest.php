@@ -84,7 +84,7 @@ final class RestorerTest extends TestCase
         $obj = new \ClassWithStaticAttributes;
 
         $this->assertEquals($obj->getPublicStaticAttribute(), \ClassWithStaticAttributes::STATIC_PUBLIC);
-        $this->assertEquals($obj->getProtectedStaticAttribute(), \ClassWithStaticAttributes::STATIC_PUBLIC);
-        $this->assertEquals($obj->getPrivateStaticAttribute(), \ClassWithStaticAttributes::STATIC_PUBLIC);
+        $this->assertEquals($obj->getProtectedStaticAttribute(), \ClassWithStaticAttributes::STATIC_PROTECTED);
+        $this->assertEquals($obj->getPrivateStaticAttribute(), \ClassWithStaticAttributes::STATIC_PRIVATE);
     }
 }
