@@ -65,4 +65,26 @@ final class RestorerTest extends TestCase
         $this->assertArrayHasKey('varGet', $_GET);
         $this->assertEquals(0, $_GET['varGet']);
     }
+
+    public function testRestoringStaticAttributes(): void
+    {
+        $obj = new \ClassWithStaticAttributes;
+
+        $snapshot = new Snapshot(null, false, true, false, false, false, false, false, false, false);
+
+        $obj->setPublicStaticAttribute('aaa');
+        $obj->setProtectedStaticAttribute('bbb');
+        $obj->setPrivateStaticAttribute('ccc');
+
+        unset($obj);
+
+        $restorer = new Restorer;
+        $restorer->restoreStaticAttributes($snapshot);
+
+        $obj = new \ClassWithStaticAttributes;
+
+        $this->assertEquals($obj->getPublicStaticAttribute(), \ClassWithStaticAttributes::STATIC_PUBLIC);
+        $this->assertEquals($obj->getProtectedStaticAttribute(), \ClassWithStaticAttributes::STATIC_PUBLIC);
+        $this->assertEquals($obj->getPrivateStaticAttribute(), \ClassWithStaticAttributes::STATIC_PUBLIC);
+    }
 }
