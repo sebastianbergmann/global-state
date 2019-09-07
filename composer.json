@@ -34,8 +34,7 @@
     },
     "autoload-dev": {
         "classmap": [
-            "tests/_fixture/",
-            "tests/_files/"
+            "tests/_fixture/"
         ],
         "files": [
             "tests/_fixture/SnapshotFunctions.php"
