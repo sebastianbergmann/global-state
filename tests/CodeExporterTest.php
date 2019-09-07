@@ -32,4 +32,26 @@ final class CodeExporterTest extends TestCase
             $exporter->globalVariables($snapshot)
         );
     }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testCanExportIniSettingsToCode(): void
+    {
+        $iniSettingName = 'display_errors';
+        ini_set($iniSettingName, '1');
+        $iniValue = ini_get($iniSettingName);
+
+        $snapshot = new Snapshot(null, false, false, false, false, false, false, false, true, false);
+
+        $exporter = new CodeExporter;
+        $export = $exporter->iniSettings($snapshot);
+
+        $pattern = "/@ini_set\(\'$iniSettingName\', \'$iniValue\'\);/";
+
+        $this->assertRegExp(
+            $pattern,
+            $export
+        );
+    }
 }
