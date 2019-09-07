@@ -1,21 +1,25 @@
 <?php declare(strict_types=1);
-
 /*
- * This file is part of PHPUnit.
+ * This file is part of sebastian/global-state.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 class ClassWithStaticAttributes
 {
     public const STATIC_PUBLIC = 'foo';
+
     public const STATIC_PROTECTED = 'bar';
+
     public const STATIC_PRIVATE = 'baz';
 
     public static $publicStaticAttribute = self::STATIC_PUBLIC;
+
     protected static $protectedStaticAttribute = self::STATIC_PROTECTED;
+
     protected static $privateStaticAttribute = self::STATIC_PRIVATE;
 
     public static function setProtectedStaticAttribute(string $protectedStaticAttribute): void
