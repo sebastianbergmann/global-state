@@ -39,13 +39,13 @@ final class CodeExporterTest extends TestCase
     public function testCanExportIniSettingsToCode(): void
     {
         $iniSettingName = 'display_errors';
-        ini_set($iniSettingName, '1');
-        $iniValue = ini_get($iniSettingName);
+        \ini_set($iniSettingName, '1');
+        $iniValue = \ini_get($iniSettingName);
 
         $snapshot = new Snapshot(null, false, false, false, false, false, false, false, true, false);
 
         $exporter = new CodeExporter;
-        $export = $exporter->iniSettings($snapshot);
+        $export   = $exporter->iniSettings($snapshot);
 
         $pattern = "/@ini_set\(\'$iniSettingName\', \'$iniValue\'\);/";
 
@@ -60,7 +60,7 @@ final class CodeExporterTest extends TestCase
      */
     public function testCanExportConstantsToCode(): void
     {
-        define('FOO', 'BAR');
+        \define('FOO', 'BAR');
 
         $snapshot = new Snapshot(null, false, false, true, false, false, false, false, false, false);
 
