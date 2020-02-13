@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="3.8.3@389af1bfc739bfdff3f9e3dc7bd6499aee51a831">
+  <file src="src/Blacklist.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$className</code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="src/Snapshot.php">
+    <PossiblyInvalidPropertyAssignmentValue occurrences="1">
+      <code>$constants['user']</code>
+    </PossiblyInvalidPropertyAssignmentValue>
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>\get_declared_traits()</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+</files>
