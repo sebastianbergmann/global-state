@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.9.3@2e4154d76e24d1b4e59e6cc2bebef7790cb9e550">
-  <file src="src/Blacklist.php">
+<files psalm-version="3.11.5@3c60609c218d4d4b3b257728b8089094e5c6c6c2">
+  <file src="src/ExcludeList.php">
     <ArgumentTypeCoercion occurrences="3">
       <code>$className</code>
       <code>$type</code>
