@@ -49,7 +49,7 @@ final class CodeExporterTest extends TestCase
 
         $pattern = "/@ini_set\(\'$iniSettingName\', \'$iniValue\'\);/";
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             $pattern,
             $export
         );
