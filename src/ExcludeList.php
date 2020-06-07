@@ -9,10 +9,7 @@
  */
 namespace SebastianBergmann\GlobalState;
 
-/**
- * A blacklist for global state elements that should not be snapshotted.
- */
-final class Blacklist
+final class ExcludeList
 {
     /**
      * @var array
@@ -78,12 +75,12 @@ final class Blacklist
         $this->staticAttributes[$className][$attributeName] = true;
     }
 
-    public function isGlobalVariableBlacklisted(string $variableName): bool
+    public function isGlobalVariableExcluded(string $variableName): bool
     {
         return isset($this->globalVariables[$variableName]);
     }
 
-    public function isStaticAttributeBlacklisted(string $className, string $attributeName): bool
+    public function isStaticAttributeExcluded(string $className, string $attributeName): bool
     {
         if (\in_array($className, $this->classes)) {
             return true;

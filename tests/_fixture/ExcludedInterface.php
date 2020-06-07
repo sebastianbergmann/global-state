@@ -9,6 +9,6 @@
  */
 namespace SebastianBergmann\GlobalState\TestFixture;
 
-interface BlacklistedInterface
+interface ExcludedInterface
 {
 }

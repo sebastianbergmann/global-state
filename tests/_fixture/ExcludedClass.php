@@ -9,7 +9,7 @@
  */
 namespace SebastianBergmann\GlobalState\TestFixture;
 
-class BlacklistedImplementor implements BlacklistedInterface
+class ExcludedClass
 {
     private static $attribute;
 }

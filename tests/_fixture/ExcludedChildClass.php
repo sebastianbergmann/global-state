@@ -9,6 +9,6 @@
  */
 namespace SebastianBergmann\GlobalState\TestFixture;
 
-class BlacklistedChildClass extends BlacklistedClass
+class ExcludedChildClass extends ExcludedClass
 {
 }

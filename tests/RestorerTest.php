@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \SebastianBergmann\GlobalState\Restorer
  *
- * @uses \SebastianBergmann\GlobalState\Blacklist
+ * @uses \SebastianBergmann\GlobalState\ExcludeList
  * @uses \SebastianBergmann\GlobalState\Snapshot
  */
 final class RestorerTest extends TestCase

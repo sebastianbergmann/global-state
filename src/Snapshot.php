@@ -18,9 +18,9 @@ use SebastianBergmann\RecursionContext\Context;
 class Snapshot
 {
     /**
-     * @var Blacklist
+     * @var ExcludeList
      */
-    private $blacklist;
+    private $excludeList;
 
     /**
      * @var array
@@ -80,9 +80,9 @@ class Snapshot
     /**
      * Creates a snapshot of the current global state.
      */
-    public function __construct(Blacklist $blacklist = null, bool $includeGlobalVariables = true, bool $includeStaticAttributes = true, bool $includeConstants = true, bool $includeFunctions = true, bool $includeClasses = true, bool $includeInterfaces = true, bool $includeTraits = true, bool $includeIniSettings = true, bool $includeIncludedFiles = true)
+    public function __construct(ExcludeList $excludeList = null, bool $includeGlobalVariables = true, bool $includeStaticAttributes = true, bool $includeConstants = true, bool $includeFunctions = true, bool $includeClasses = true, bool $includeInterfaces = true, bool $includeTraits = true, bool $includeIniSettings = true, bool $includeIncludedFiles = true)
     {
-        $this->blacklist = $blacklist ?: new Blacklist;
+        $this->excludeList = $excludeList ?: new ExcludeList;
 
         if ($includeConstants) {
             $this->snapshotConstants();
@@ -120,9 +120,9 @@ class Snapshot
         $this->traits = \get_declared_traits();
     }
 
-    public function blacklist(): Blacklist
+    public function excludeList(): ExcludeList
     {
-        return $this->blacklist;
+        return $this->excludeList;
     }
 
     public function globalVariables(): array
@@ -253,7 +253,7 @@ class Snapshot
             if ($key !== 'GLOBALS' &&
                 !\in_array($key, $superGlobalArrays) &&
                 $this->canBeSerialized($GLOBALS[$key]) &&
-                !$this->blacklist->isGlobalVariableBlacklisted($key)) {
+                !$this->excludeList->isGlobalVariableExcluded($key)) {
                 /* @noinspection UnserializeExploitsInspection */
                 $this->globalVariables[$key] = \unserialize(\serialize($GLOBALS[$key]));
             }
@@ -288,7 +288,7 @@ class Snapshot
                 if ($attribute->isStatic()) {
                     $name = $attribute->getName();
 
-                    if ($this->blacklist->isStaticAttributeBlacklisted($className, $name)) {
+                    if ($this->excludeList->isStaticAttributeExcluded($className, $name)) {
                         continue;
                     }
 

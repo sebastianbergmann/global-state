@@ -10,34 +10,34 @@
 namespace SebastianBergmann\GlobalState;
 
 use PHPUnit\Framework\TestCase;
-use SebastianBergmann\GlobalState\TestFixture\BlacklistedInterface;
+use SebastianBergmann\GlobalState\TestFixture\ExcludedInterface;
 use SebastianBergmann\GlobalState\TestFixture\SnapshotClass;
 use SebastianBergmann\GlobalState\TestFixture\SnapshotTrait;
 
 /**
  * @covers \SebastianBergmann\GlobalState\Snapshot
  *
- * @uses \SebastianBergmann\GlobalState\Blacklist
+ * @uses \SebastianBergmann\GlobalState\ExcludeList
  */
 final class SnapshotTest extends TestCase
 {
     /**
-     * @var Blacklist
+     * @var ExcludeList
      */
-    private $blacklist;
+    private $excludeList;
 
     protected function setUp(): void
     {
-        $this->blacklist = new Blacklist;
+        $this->excludeList = new ExcludeList;
     }
 
     public function testStaticAttributes(): void
     {
         SnapshotClass::init();
 
-        $this->blacklistAllLoadedClassesExceptSnapshotClass();
+        $this->excludeAllLoadedClassesExceptSnapshotClass();
 
-        $snapshot = new Snapshot($this->blacklist, false, true, false, false, false, false, false, false, false);
+        $snapshot = new Snapshot($this->excludeList, false, true, false, false, false, false, false, false, false);
 
         $expected = [
             SnapshotClass::class => [
@@ -52,7 +52,7 @@ final class SnapshotTest extends TestCase
     public function testConstructorExcludesAspectsWhenTheyShouldNotBeIncluded(): void
     {
         $snapshot = new Snapshot(
-            $this->blacklist,
+            $this->excludeList,
             false,
             false,
             false,
@@ -76,10 +76,10 @@ final class SnapshotTest extends TestCase
         $this->assertEmpty($snapshot->traits());
     }
 
-    public function testBlacklistCanBeAccessed(): void
+    public function testExcludeListCanBeAccessed(): void
     {
         $snapshot = new Snapshot(
-            $this->blacklist,
+            $this->excludeList,
             false,
             false,
             true,
@@ -91,19 +91,19 @@ final class SnapshotTest extends TestCase
             false
         );
 
-        $this->assertSame($this->blacklist, $snapshot->blacklist());
+        $this->assertSame($this->excludeList, $snapshot->excludeList());
     }
 
     public function testConstants(): void
     {
-        $snapshot = new Snapshot($this->blacklist, false, false, true, false, false, false, false, false, false);
+        $snapshot = new Snapshot($this->excludeList, false, false, true, false, false, false, false, false, false);
 
         $this->assertArrayHasKey('GLOBALSTATE_TESTSUITE', $snapshot->constants());
     }
 
     public function testFunctions(): void
     {
-        $snapshot  = new Snapshot($this->blacklist, false, false, false, true, false, false, false, false, false);
+        $snapshot  = new Snapshot($this->excludeList, false, false, false, true, false, false, false, false, false);
         $functions = $snapshot->functions();
 
         $this->assertContains('sebastianbergmann\globalstate\testfixture\snapshotfunction', $functions);
@@ -112,7 +112,7 @@ final class SnapshotTest extends TestCase
 
     public function testClasses(): void
     {
-        $snapshot = new Snapshot($this->blacklist, false, false, false, false, true, false, false, false, false);
+        $snapshot = new Snapshot($this->excludeList, false, false, false, false, true, false, false, false, false);
         $classes  = $snapshot->classes();
 
         $this->assertContains(TestCase::class, $classes);
@@ -121,12 +121,12 @@ final class SnapshotTest extends TestCase
 
     public function testInterfaces(): void
     {
-        $this->blacklist->addClass(BlacklistedInterface::class);
+        $this->excludeList->addClass(ExcludedInterface::class);
 
-        $snapshot   = new Snapshot($this->blacklist, false, false, false, false, false, true, false, false, false);
+        $snapshot   = new Snapshot($this->excludeList, false, false, false, false, false, true, false, false, false);
         $interfaces = $snapshot->interfaces();
 
-        $this->assertContains(BlacklistedInterface::class, $interfaces);
+        $this->assertContains(ExcludedInterface::class, $interfaces);
         $this->assertNotContains(\Countable::class, $interfaces);
     }
 
@@ -134,14 +134,14 @@ final class SnapshotTest extends TestCase
     {
         \spl_autoload_call('SebastianBergmann\GlobalState\TestFixture\SnapshotTrait');
 
-        $snapshot = new Snapshot($this->blacklist, false, false, false, false, false, false, true, false, false);
+        $snapshot = new Snapshot($this->excludeList, false, false, false, false, false, false, true, false, false);
 
         $this->assertContains(SnapshotTrait::class, $snapshot->traits());
     }
 
     public function testIniSettings(): void
     {
-        $snapshot    = new Snapshot($this->blacklist, false, false, false, false, false, false, false, true, false);
+        $snapshot    = new Snapshot($this->excludeList, false, false, false, false, false, false, false, true, false);
         $iniSettings = $snapshot->iniSettings();
 
         $this->assertArrayHasKey('date.timezone', $iniSettings);
@@ -150,18 +150,18 @@ final class SnapshotTest extends TestCase
 
     public function testIncludedFiles(): void
     {
-        $snapshot = new Snapshot($this->blacklist, false, false, false, false, false, false, false, false, true);
+        $snapshot = new Snapshot($this->excludeList, false, false, false, false, false, false, false, false, true);
         $this->assertContains(__FILE__, $snapshot->includedFiles());
     }
 
-    private function blacklistAllLoadedClassesExceptSnapshotClass(): void
+    private function excludeAllLoadedClassesExceptSnapshotClass(): void
     {
         foreach (\get_declared_classes() as $class) {
             if ($class === SnapshotClass::class) {
                 continue;
             }
 
-            $this->blacklist->addClass($class);
+            $this->excludeList->addClass($class);
         }
     }
 }

@@ -50,7 +50,7 @@ class Restorer
         foreach (\array_keys($GLOBALS) as $key) {
             if ($key !== 'GLOBALS' &&
                 !\in_array($key, $superGlobalArrays) &&
-                !$snapshot->blacklist()->isGlobalVariableBlacklisted($key)) {
+                !$snapshot->excludeList()->isGlobalVariableExcluded($key)) {
                 if (\array_key_exists($key, $globalVariables)) {
                     $GLOBALS[$key] = $globalVariables[$key];
                 } else {
@@ -65,7 +65,7 @@ class Restorer
      */
     public function restoreStaticAttributes(Snapshot $snapshot): void
     {
-        $current    = new Snapshot($snapshot->blacklist(), false, false, false, false, true, false, false, false, false);
+        $current    = new Snapshot($snapshot->excludeList(), false, false, false, false, true, false, false, false, false);
         $newClasses = \array_diff($current->classes(), $snapshot->classes());
 
         unset($current);
@@ -89,7 +89,7 @@ class Restorer
 
                 $name = $attribute->getName();
 
-                if ($snapshot->blacklist()->isStaticAttributeBlacklisted($className, $name)) {
+                if ($snapshot->excludeList()->isStaticAttributeExcluded($className, $name)) {
                     continue;
                 }
 
