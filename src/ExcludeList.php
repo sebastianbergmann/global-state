@@ -9,6 +9,10 @@
  */
 namespace SebastianBergmann\GlobalState;
 
+use function in_array;
+use function strpos;
+use ReflectionClass;
+
 final class ExcludeList
 {
     /**
@@ -82,17 +86,17 @@ final class ExcludeList
 
     public function isStaticAttributeExcluded(string $className, string $attributeName): bool
     {
-        if (\in_array($className, $this->classes)) {
+        if (in_array($className, $this->classes)) {
             return true;
         }
 
         foreach ($this->classNamePrefixes as $prefix) {
-            if (\strpos($className, $prefix) === 0) {
+            if (strpos($className, $prefix) === 0) {
                 return true;
             }
         }
 
-        $class = new \ReflectionClass($className);
+        $class = new ReflectionClass($className);
 
         foreach ($this->parentClasses as $type) {
             if ($class->isSubclassOf($type)) {

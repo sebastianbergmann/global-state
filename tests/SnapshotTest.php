@@ -9,10 +9,14 @@
  */
 namespace SebastianBergmann\GlobalState;
 
+use function get_declared_classes;
+use function spl_autoload_call;
+use Countable;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\GlobalState\TestFixture\ExcludedInterface;
 use SebastianBergmann\GlobalState\TestFixture\SnapshotClass;
 use SebastianBergmann\GlobalState\TestFixture\SnapshotTrait;
+use stdClass;
 
 /**
  * @covers \SebastianBergmann\GlobalState\Snapshot
@@ -42,7 +46,7 @@ final class SnapshotTest extends TestCase
         $expected = [
             SnapshotClass::class => [
                 'string'  => 'string',
-                'objects' => [new \stdClass],
+                'objects' => [new stdClass],
             ],
         ];
 
@@ -127,12 +131,12 @@ final class SnapshotTest extends TestCase
         $interfaces = $snapshot->interfaces();
 
         $this->assertContains(ExcludedInterface::class, $interfaces);
-        $this->assertNotContains(\Countable::class, $interfaces);
+        $this->assertNotContains(Countable::class, $interfaces);
     }
 
     public function testTraits(): void
     {
-        \spl_autoload_call('SebastianBergmann\GlobalState\TestFixture\SnapshotTrait');
+        spl_autoload_call('SebastianBergmann\GlobalState\TestFixture\SnapshotTrait');
 
         $snapshot = new Snapshot($this->excludeList, false, false, false, false, false, false, true, false, false);
 
@@ -156,7 +160,7 @@ final class SnapshotTest extends TestCase
 
     private function excludeAllLoadedClassesExceptSnapshotClass(): void
     {
-        foreach (\get_declared_classes() as $class) {
+        foreach (get_declared_classes() as $class) {
             if ($class === SnapshotClass::class) {
                 continue;
             }

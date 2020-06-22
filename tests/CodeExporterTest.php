@@ -9,6 +9,10 @@
  */
 namespace SebastianBergmann\GlobalState;
 
+use const PHP_EOL;
+use function define;
+use function ini_get;
+use function ini_set;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -28,7 +32,7 @@ final class CodeExporterTest extends TestCase
         $exporter = new CodeExporter;
 
         $this->assertEquals(
-            '$GLOBALS = [];' . \PHP_EOL . '$GLOBALS[\'foo\'] = \'bar\';' . \PHP_EOL,
+            '$GLOBALS = [];' . PHP_EOL . '$GLOBALS[\'foo\'] = \'bar\';' . PHP_EOL,
             $exporter->globalVariables($snapshot)
         );
     }
@@ -39,8 +43,8 @@ final class CodeExporterTest extends TestCase
     public function testCanExportIniSettingsToCode(): void
     {
         $iniSettingName = 'display_errors';
-        \ini_set($iniSettingName, '1');
-        $iniValue = \ini_get($iniSettingName);
+        ini_set($iniSettingName, '1');
+        $iniValue = ini_get($iniSettingName);
 
         $snapshot = new Snapshot(null, false, false, false, false, false, false, false, true, false);
 
@@ -60,7 +64,7 @@ final class CodeExporterTest extends TestCase
      */
     public function testCanExportConstantsToCode(): void
     {
-        \define('FOO', 'BAR');
+        define('FOO', 'BAR');
 
         $snapshot = new Snapshot(null, false, false, true, false, false, false, false, false, false);
 

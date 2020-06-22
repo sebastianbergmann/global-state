@@ -9,6 +9,10 @@
  */
 namespace SebastianBergmann\GlobalState\TestFixture;
 
+use function fopen;
+use SplFileInfo;
+use stdClass;
+
 class SnapshotClass
 {
     private static $string = 'string';
@@ -26,10 +30,10 @@ class SnapshotClass
         self::$closures[] = function (): void {
         };
 
-        self::$files[] = new \SplFileInfo(__FILE__);
+        self::$files[] = new SplFileInfo(__FILE__);
 
-        self::$resources[] = \fopen('php://memory', 'r');
+        self::$resources[] = fopen('php://memory', 'r');
 
-        self::$objects[] = new \stdClass;
+        self::$objects[] = new stdClass;
     }
 }
