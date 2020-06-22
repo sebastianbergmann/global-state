@@ -12,7 +12,7 @@
       <code>$constants['user']</code>
     </PossiblyInvalidPropertyAssignmentValue>
     <PossiblyNullPropertyAssignmentValue occurrences="1">
-      <code>\get_declared_traits()</code>
+      <code>get_declared_traits()</code>
     </PossiblyNullPropertyAssignmentValue>
   </file>
 </files>
