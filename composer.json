@@ -20,7 +20,7 @@
         "sort-packages": true
     },
     "require": {
-        "php": "^7.3",
+        "php": "^7.3 || ^8.0",
         "sebastian/object-reflector": "^2.0",
         "sebastian/recursion-context": "^4.0"
     },
