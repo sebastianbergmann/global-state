@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.11.5@3c60609c218d4d4b3b257728b8089094e5c6c6c2">
+<files psalm-version="4.0.1@b1e2e30026936ef8d5bf6a354d1c3959b6231f44">
+  <file src="src/CodeExporter.php">
+    <MissingParamType occurrences="1">
+      <code>$variable</code>
+    </MissingParamType>
+  </file>
   <file src="src/ExcludeList.php">
     <ArgumentTypeCoercion occurrences="3">
       <code>$className</code>
@@ -8,6 +13,10 @@
     </ArgumentTypeCoercion>
   </file>
   <file src="src/Snapshot.php">
+    <MissingParamType occurrences="2">
+      <code>$variable</code>
+      <code>$variable</code>
+    </MissingParamType>
     <PossiblyInvalidPropertyAssignmentValue occurrences="1">
       <code>$constants['user']</code>
     </PossiblyInvalidPropertyAssignmentValue>
