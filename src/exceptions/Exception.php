@@ -9,6 +9,8 @@
  */
 namespace SebastianBergmann\GlobalState;
 
-interface Exception
+use Throwable;
+
+interface Exception extends Throwable
 {
 }
