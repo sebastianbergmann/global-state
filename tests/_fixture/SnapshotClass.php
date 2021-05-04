@@ -27,7 +27,7 @@ class SnapshotClass
 
     public static function init(): void
     {
-        self::$closures[] = function (): void {
+        self::$closures[] = static function (): void {
         };
 
         self::$files[] = new SplFileInfo(__FILE__);

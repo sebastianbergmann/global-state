@@ -271,7 +271,7 @@ class Snapshot
 
         foreach (array_keys($GLOBALS) as $key) {
             if ($key !== 'GLOBALS' &&
-                !in_array($key, $superGlobalArrays) &&
+                !in_array($key, $superGlobalArrays, true) &&
                 $this->canBeSerialized($GLOBALS[$key]) &&
                 !$this->excludeList->isGlobalVariableExcluded($key)) {
                 /* @noinspection UnserializeExploitsInspection */

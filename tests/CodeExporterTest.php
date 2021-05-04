@@ -51,7 +51,7 @@ final class CodeExporterTest extends TestCase
         $exporter = new CodeExporter;
         $export   = $exporter->iniSettings($snapshot);
 
-        $pattern = "/@ini_set\(\'$iniSettingName\', \'$iniValue\'\);/";
+        $pattern = "/@ini_set\(\'{$iniSettingName}\', \'{$iniValue}\'\);/";
 
         $this->assertMatchesRegularExpression(
             $pattern,

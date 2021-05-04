@@ -86,7 +86,7 @@ final class ExcludeList
 
     public function isStaticAttributeExcluded(string $className, string $attributeName): bool
     {
-        if (in_array($className, $this->classes)) {
+        if (in_array($className, $this->classes, true)) {
             return true;
         }
 

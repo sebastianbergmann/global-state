@@ -60,7 +60,7 @@ class Restorer
 
         foreach (array_keys($GLOBALS) as $key) {
             if ($key !== 'GLOBALS' &&
-                !in_array($key, $superGlobalArrays) &&
+                !in_array($key, $superGlobalArrays, true) &&
                 !$snapshot->excludeList()->isGlobalVariableExcluded($key)) {
                 if (array_key_exists($key, $globalVariables)) {
                     $GLOBALS[$key] = $globalVariables[$key];
