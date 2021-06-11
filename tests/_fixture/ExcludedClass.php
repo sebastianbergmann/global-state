@@ -9,7 +9,7 @@
  */
 namespace SebastianBergmann\GlobalState\TestFixture;
 
-class ExcludedClass
+class ExcludedClass implements ExcludedInterface
 {
     private static $attribute;
 }

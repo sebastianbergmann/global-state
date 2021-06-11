@@ -13,6 +13,7 @@ use function get_declared_classes;
 use function spl_autoload_call;
 use Countable;
 use PHPUnit\Framework\TestCase;
+use SebastianBergmann\GlobalState\TestFixture\ExcludedClass;
 use SebastianBergmann\GlobalState\TestFixture\ExcludedInterface;
 use SebastianBergmann\GlobalState\TestFixture\SnapshotClass;
 use SebastianBergmann\GlobalState\TestFixture\SnapshotTrait;
@@ -125,7 +126,8 @@ final class SnapshotTest extends TestCase
 
     public function testInterfaces(): void
     {
-        $this->excludeList->addClass(ExcludedInterface::class);
+        /* @noinspection PhpExpressionResultUnusedInspection */
+        new ExcludedClass;
 
         $snapshot   = new Snapshot($this->excludeList, false, false, false, false, false, true, false, false, false);
         $interfaces = $snapshot->interfaces();
