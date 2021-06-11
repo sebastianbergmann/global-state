@@ -9,7 +9,6 @@
  */
 namespace SebastianBergmann\GlobalState;
 
-use const PHP_EOL;
 use function define;
 use function ini_get;
 use function ini_set;
@@ -22,16 +21,27 @@ final class CodeExporterTest extends TestCase
 {
     public function testCanExportGlobalVariablesToCode(): void
     {
-        $GLOBALS = ['foo' => 'bar'];
+        $expected = <<<'EOT'
+call_user_func(
+    function ()
+    {
+        foreach (array_keys($GLOBALS) as $key) {
+            unset($GLOBALS[$key]);
+        }
+    }
+);
+
+$GLOBALS['foo'] = 'bar';
+
+EOT;
+
+        $this->cleanGlobals();
+        $GLOBALS['foo'] = 'bar';
 
         $snapshot = new Snapshot(null, true, false, false, false, false, false, false, false, false);
-
         $exporter = new CodeExporter;
 
-        $this->assertEquals(
-            '$GLOBALS = [];' . PHP_EOL . '$GLOBALS[\'foo\'] = \'bar\';' . PHP_EOL,
-            $exporter->globalVariables($snapshot)
-        );
+        $this->assertSame($expected, $exporter->globalVariables($snapshot));
     }
 
     public function testCanExportIniSettingsToCode(): void
@@ -64,5 +74,20 @@ final class CodeExporterTest extends TestCase
             "if (!defined('FOO')) define('FOO', 'BAR');",
             $exporter->constants($snapshot)
         );
+    }
+
+    /**
+     * @see https://github.com/sebastianbergmann/global-state/issues/31
+     * @see https://wiki.php.net/rfc/restrict_globals_usage
+     */
+    private function cleanGlobals(): void
+    {
+        foreach (array_keys($GLOBALS) as $key) {
+            if ($key === 'GLOBALS') {
+                continue;
+            }
+
+            unset($GLOBALS[$key]);
+        }
     }
 }

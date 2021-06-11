@@ -2,6 +2,12 @@
 
 All notable changes in `sebastian/global-state` are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [5.0.3] - 2021-MM-DD
+
+### Changed
+
+* `SebastianBergmann\GlobalState\CodeExporter::globalVariables()` now generates code that is compatible with PHP 8.1
+
 ## [5.0.2] - 2020-10-26
 
 ### Fixed
@@ -36,6 +42,7 @@ All notable changes in `sebastian/global-state` are documented in this file usin
 
 * This component is no longer supported on PHP 7.0 and PHP 7.1
 
+[5.0.3]: https://github.com/sebastianbergmann/global-state/compare/5.0.2...master
 [5.0.2]: https://github.com/sebastianbergmann/global-state/compare/5.0.1...5.0.2
 [5.0.1]: https://github.com/sebastianbergmann/global-state/compare/5.0.0...5.0.1
 [5.0.0]: https://github.com/sebastianbergmann/global-state/compare/4.0.0...5.0.0
