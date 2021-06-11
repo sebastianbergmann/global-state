@@ -48,8 +48,7 @@ final class CodeExporterTest extends TestCase
 
         $snapshot = new Snapshot(null, false, false, false, false, false, false, false, true, false);
 
-        $exporter = new CodeExporter;
-        $export   = $exporter->iniSettings($snapshot);
+        $export = (new CodeExporter)->iniSettings($snapshot);
 
         $pattern = "/@ini_set\(\'{$iniSettingName}\', \'{$iniValue}\'\);/";
 
