@@ -9,6 +9,7 @@
          beStrictAboutTodoAnnotatedTests="true"
          failOnRisky="true"
          failOnWarning="true"
+         processIsolation="true"
          colors="true"
          verbose="true">
     <testsuites>

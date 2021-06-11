@@ -20,9 +20,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class CodeExporterTest extends TestCase
 {
-    /**
-     * @runInSeparateProcess
-     */
     public function testCanExportGlobalVariablesToCode(): void
     {
         $GLOBALS = ['foo' => 'bar'];
@@ -37,9 +34,6 @@ final class CodeExporterTest extends TestCase
         );
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testCanExportIniSettingsToCode(): void
     {
         $iniSettingName = 'display_errors';
@@ -58,9 +52,6 @@ final class CodeExporterTest extends TestCase
         );
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testCanExportConstantsToCode(): void
     {
         define('FOO', 'BAR');

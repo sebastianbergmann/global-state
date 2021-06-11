@@ -40,9 +40,6 @@ final class RestorerTest extends TestCase
         $this->assertEquals(0, $_GET['varGet']);
     }
 
-    /**
-     * @backupGlobals enabled
-     */
     public function testIntegrationRestorerGlobalVariables(): void
     {
         $this->assertArrayHasKey('varBool', $GLOBALS);
