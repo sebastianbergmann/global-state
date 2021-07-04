@@ -11,21 +11,22 @@
         }
     ],
     "prefer-stable": true,
+    "minimum-stability": "dev",
     "config": {
         "platform": {
-            "php": "7.3.0"
+            "php": "8.0.0"
         },
         "optimize-autoloader": true,
         "sort-packages": true
     },
     "require": {
-        "php": ">=7.3",
-        "sebastian/object-reflector": "^2.0",
-        "sebastian/recursion-context": "^4.0"
+        "php": ">=8.0",
+        "sebastian/object-reflector": "^3.0",
+        "sebastian/recursion-context": "^5.0"
     },
     "require-dev": {
         "ext-dom": "*",
-        "phpunit/phpunit": "^9.3"
+        "phpunit/phpunit": "^10.0"
     },
     "suggest": {
         "ext-uopz": "*"
@@ -45,7 +46,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "5.0-dev"
+            "dev-master": "6.0-dev"
         }
     }
 }
