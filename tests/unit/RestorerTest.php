@@ -23,6 +23,7 @@ final class RestorerTest extends TestCase
     {
         $GLOBALS['varBool'] = false;
         $GLOBALS['varNull'] = null;
+        $_ENV['varNull'] = null;
         $_GET['varGet']     = 0;
     }
 
@@ -36,6 +37,8 @@ final class RestorerTest extends TestCase
         $this->assertEquals(false, $GLOBALS['varBool']);
         $this->assertArrayHasKey('varNull', $GLOBALS);
         $this->assertEquals(null, $GLOBALS['varNull']);
+        $this->assertArrayHasKey('varNull', $_ENV);
+        $this->assertEquals(null, $_ENV['varNull']);
         $this->assertArrayHasKey('varGet', $_GET);
         $this->assertEquals(0, $_GET['varGet']);
     }
@@ -46,6 +49,8 @@ final class RestorerTest extends TestCase
         $this->assertEquals(false, $GLOBALS['varBool']);
         $this->assertArrayHasKey('varNull', $GLOBALS);
         $this->assertEquals(null, $GLOBALS['varNull']);
+        $this->assertArrayHasKey('varNull', $_ENV);
+        $this->assertEquals(null, $_ENV['varNull']);
         $this->assertArrayHasKey('varGet', $_GET);
         $this->assertEquals(0, $_GET['varGet']);
     }
@@ -59,6 +64,8 @@ final class RestorerTest extends TestCase
         $this->assertEquals(false, $GLOBALS['varBool']);
         $this->assertArrayHasKey('varNull', $GLOBALS);
         $this->assertEquals(null, $GLOBALS['varNull']);
+        $this->assertArrayHasKey('varNull', $_ENV);
+        $this->assertEquals(null, $_ENV['varNull']);
         $this->assertArrayHasKey('varGet', $_GET);
         $this->assertEquals(0, $_GET['varGet']);
     }
