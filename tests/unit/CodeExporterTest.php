@@ -54,7 +54,7 @@ EOT;
 
         $export = (new CodeExporter)->iniSettings($snapshot);
 
-        $pattern = "/@ini_set\(\'{$iniSettingName}\', \'{$iniValue}\'\);/";
+        $pattern = "/@ini_set\('{$iniSettingName}', '{$iniValue}'\);/";
 
         $this->assertMatchesRegularExpression(
             $pattern,

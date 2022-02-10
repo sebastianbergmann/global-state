@@ -28,9 +28,6 @@
         "ext-dom": "*",
         "phpunit/phpunit": "^10.0"
     },
-    "suggest": {
-        "ext-uopz": "*"
-    },
     "autoload": {
         "classmap": [
             "src/"

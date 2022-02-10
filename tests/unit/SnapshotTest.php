@@ -26,10 +26,7 @@ use stdClass;
  */
 final class SnapshotTest extends TestCase
 {
-    /**
-     * @var ExcludeList
-     */
-    private $excludeList;
+    private ExcludeList $excludeList;
 
     protected function setUp(): void
     {

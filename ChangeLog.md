@@ -6,6 +6,7 @@ All notable changes in `sebastian/global-state` are documented in this file usin
 
 ### Removed
 
+* Removed `SebastianBergmann\GlobalState\Restorer::restoreFunctions()`
 * This component is no longer supported on PHP 7
 
 ## [5.0.4] - 2022-02-10

@@ -1,25 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.x-dev@">
-  <file src="src/CodeExporter.php">
-    <MissingParamType occurrences="1">
-      <code>$variable</code>
-    </MissingParamType>
-  </file>
-  <file src="src/ExcludeList.php">
-    <ArgumentTypeCoercion occurrences="3">
-      <code>$className</code>
-      <code>$type</code>
-      <code>$type</code>
-    </ArgumentTypeCoercion>
-  </file>
   <file src="src/Snapshot.php">
-    <MissingParamType occurrences="2">
-      <code>$variable</code>
-      <code>$variable</code>
-    </MissingParamType>
-    <PossiblyInvalidPropertyAssignmentValue occurrences="1">
-      <code>$constants['user']</code>
-    </PossiblyInvalidPropertyAssignmentValue>
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>get_declared_traits()</code>
     </PossiblyNullPropertyAssignmentValue>

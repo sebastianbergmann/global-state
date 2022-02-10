@@ -20,10 +20,7 @@ use SebastianBergmann\GlobalState\TestFixture\ExcludedInterface;
  */
 final class ExcludeListTest extends TestCase
 {
-    /**
-     * @var \SebastianBergmann\GlobalState\ExcludeList
-     */
-    private $excludeList;
+    private ExcludeList $excludeList;
 
     protected function setUp(): void
     {

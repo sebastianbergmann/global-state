@@ -15,35 +15,17 @@ use ReflectionClass;
 
 final class ExcludeList
 {
-    /**
-     * @var array
-     */
-    private $globalVariables = [];
+    private array $globalVariables = [];
 
-    /**
-     * @var string[]
-     */
-    private $classes = [];
+    private array $classes = [];
 
-    /**
-     * @var string[]
-     */
-    private $classNamePrefixes = [];
+    private array $classNamePrefixes = [];
 
-    /**
-     * @var string[]
-     */
-    private $parentClasses = [];
+    private array $parentClasses = [];
 
-    /**
-     * @var string[]
-     */
-    private $interfaces = [];
+    private array $interfaces = [];
 
-    /**
-     * @var array
-     */
-    private $staticAttributes = [];
+    private array $staticAttributes = [];
 
     public function addGlobalVariable(string $variableName): void
     {
@@ -84,6 +66,9 @@ final class ExcludeList
         return isset($this->globalVariables[$variableName]);
     }
 
+    /**
+     * @psalm-param class-string $className
+     */
     public function isStaticAttributeExcluded(string $className, string $attributeName): bool
     {
         if (in_array($className, $this->classes, true)) {
@@ -110,10 +95,6 @@ final class ExcludeList
             }
         }
 
-        if (isset($this->staticAttributes[$className][$attributeName])) {
-            return true;
-        }
-
-        return false;
+        return isset($this->staticAttributes[$className][$attributeName]);
     }
 }
