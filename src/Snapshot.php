@@ -315,6 +315,11 @@ class Snapshot
                     }
 
                     $attribute->setAccessible(true);
+
+                    if (PHP_VERSION_ID >= 70400 && !$attribute->isInitialized()) {
+                        continue;
+                    }
+
                     $value = $attribute->getValue();
 
                     if ($this->canBeSerialized($value)) {
