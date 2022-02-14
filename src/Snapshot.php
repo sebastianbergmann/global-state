@@ -256,6 +256,11 @@ class Snapshot
                     }
 
                     $attribute->setAccessible(true);
+
+                    if (!$attribute->isInitialized()) {
+                        continue;
+                    }
+
                     $value = $attribute->getValue();
 
                     if ($this->canBeSerialized($value)) {

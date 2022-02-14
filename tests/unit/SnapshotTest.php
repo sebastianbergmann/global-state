@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 use SebastianBergmann\GlobalState\TestFixture\ExcludedClass;
 use SebastianBergmann\GlobalState\TestFixture\ExcludedInterface;
 use SebastianBergmann\GlobalState\TestFixture\SnapshotClass;
+use SebastianBergmann\GlobalState\TestFixture\SnapshotClassTyped;
 use SebastianBergmann\GlobalState\TestFixture\SnapshotTrait;
 use stdClass;
 
@@ -37,7 +38,7 @@ final class SnapshotTest extends TestCase
     {
         SnapshotClass::init();
 
-        $this->excludeAllLoadedClassesExceptSnapshotClass();
+        $this->excludeAllLoadedClassesExceptClass(SnapshotClass::class);
 
         $snapshot = new Snapshot($this->excludeList, false, true, false, false, false, false, false, false, false);
 
@@ -45,6 +46,42 @@ final class SnapshotTest extends TestCase
             SnapshotClass::class => [
                 'string'  => 'string',
                 'objects' => [new stdClass],
+            ],
+        ];
+
+        $this->assertEquals($expected, $snapshot->staticAttributes());
+    }
+
+    public function testStaticNotInitialisedAttributes(): void
+    {
+        /* @noinspection PhpExpressionResultUnusedInspection */
+        new SnapshotClassTyped;
+
+        $this->excludeAllLoadedClassesExceptClass(SnapshotClassTyped::class);
+
+        $snapshot = new Snapshot($this->excludeList, false, true, false, false, false, false, false, false, false);
+
+        $expected = [
+            SnapshotClassTyped::class => [
+                'bool' => true,
+            ],
+        ];
+
+        $this->assertEquals($expected, $snapshot->staticAttributes());
+    }
+
+    public function testStaticInitialisedAttributes(): void
+    {
+        SnapshotClassTyped::init();
+
+        $this->excludeAllLoadedClassesExceptClass(SnapshotClassTyped::class);
+
+        $snapshot = new Snapshot($this->excludeList, false, true, false, false, false, false, false, false, false);
+
+        $expected = [
+            SnapshotClassTyped::class => [
+                'bool'   => true,
+                'string' => 'string',
             ],
         ];
 
@@ -157,10 +194,10 @@ final class SnapshotTest extends TestCase
         $this->assertContains(__FILE__, $snapshot->includedFiles());
     }
 
-    private function excludeAllLoadedClassesExceptSnapshotClass(): void
+    private function excludeAllLoadedClassesExceptClass(string $excludedClass): void
     {
         foreach (get_declared_classes() as $class) {
-            if ($class === SnapshotClass::class) {
+            if ($class === $excludedClass) {
                 continue;
             }
 

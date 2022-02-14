@@ -9,6 +9,12 @@ All notable changes in `sebastian/global-state` are documented in this file usin
 * Removed `SebastianBergmann\GlobalState\Restorer::restoreFunctions()`
 * This component is no longer supported on PHP 7
 
+## [5.0.5] - 2022-02-14
+
+### Fixed
+
+* [#34](https://github.com/sebastianbergmann/global-state/pull/34): Uninitialised typed static properties are not handled correctly
+
 ## [5.0.4] - 2022-02-10
 
 ### Fixed
@@ -67,7 +73,8 @@ All notable changes in `sebastian/global-state` are documented in this file usin
 
 * This component is no longer supported on PHP 7.0 and PHP 7.1
 
-[6.0.0]: https://github.com/sebastianbergmann/global-state/compare/5.0.4...master
+[6.0.0]: https://github.com/sebastianbergmann/global-state/compare/5.0.5...master
+[5.0.5]: https://github.com/sebastianbergmann/global-state/compare/5.0.4...5.0.5
 [5.0.4]: https://github.com/sebastianbergmann/global-state/compare/5.0.3...5.0.4
 [5.0.3]: https://github.com/sebastianbergmann/global-state/compare/5.0.2...5.0.3
 [5.0.2]: https://github.com/sebastianbergmann/global-state/compare/5.0.1...5.0.2
