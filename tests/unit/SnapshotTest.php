@@ -49,7 +49,7 @@ final class SnapshotTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $snapshot->staticAttributes());
+        $this->assertEquals($expected, $snapshot->staticProperties());
     }
 
     public function testStaticNotInitialisedAttributes(): void
@@ -67,7 +67,7 @@ final class SnapshotTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $snapshot->staticAttributes());
+        $this->assertEquals($expected, $snapshot->staticProperties());
     }
 
     public function testStaticInitialisedAttributes(): void
@@ -85,7 +85,7 @@ final class SnapshotTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $snapshot->staticAttributes());
+        $this->assertEquals($expected, $snapshot->staticProperties());
     }
 
     public function testConstructorExcludesAspectsWhenTheyShouldNotBeIncluded(): void
@@ -109,7 +109,7 @@ final class SnapshotTest extends TestCase
         $this->assertEmpty($snapshot->includedFiles());
         $this->assertEmpty($snapshot->iniSettings());
         $this->assertEmpty($snapshot->interfaces());
-        $this->assertEmpty($snapshot->staticAttributes());
+        $this->assertEmpty($snapshot->staticProperties());
         $this->assertEmpty($snapshot->superGlobalArrays());
         $this->assertEmpty($snapshot->superGlobalVariables());
         $this->assertEmpty($snapshot->traits());

@@ -11,5 +11,5 @@ namespace SebastianBergmann\GlobalState\TestFixture;
 
 class ExcludedClass implements ExcludedInterface
 {
-    private static $attribute;
+    private static $property;
 }

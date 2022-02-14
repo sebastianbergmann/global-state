@@ -4,6 +4,13 @@ All notable changes in `sebastian/global-state` are documented in this file usin
 
 ## [6.0.0] - 2021-MM-DD
 
+### Changed
+
+* Renamed `SebastianBergmann\GlobalState\ExcludeList::addStaticAttribute()` to `SebastianBergmann\GlobalState\ExcludeList::addStaticProperty()`
+* Renamed `SebastianBergmann\GlobalState\ExcludeList::isStaticAttributeExcluded()` to `SebastianBergmann\GlobalState\ExcludeList::isStaticPropertyExcluded()`
+* Renamed `SebastianBergmann\GlobalState\Restorer::restoreStaticAttributes()` to `SebastianBergmann\GlobalState\Restorer::restoreStaticProperties()`
+* Renamed `SebastianBergmann\GlobalState\Snapshot::staticAttributes()` to `SebastianBergmann\GlobalState\Snapshot::staticProperties()`
+
 ### Removed
 
 * Removed `SebastianBergmann\GlobalState\Restorer::restoreFunctions()`

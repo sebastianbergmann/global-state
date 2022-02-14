@@ -25,7 +25,7 @@ final class ExcludeList
 
     private array $interfaces = [];
 
-    private array $staticAttributes = [];
+    private array $staticProperties = [];
 
     public function addGlobalVariable(string $variableName): void
     {
@@ -52,13 +52,13 @@ final class ExcludeList
         $this->classNamePrefixes[] = $classNamePrefix;
     }
 
-    public function addStaticAttribute(string $className, string $attributeName): void
+    public function addStaticProperty(string $className, string $propertyName): void
     {
-        if (!isset($this->staticAttributes[$className])) {
-            $this->staticAttributes[$className] = [];
+        if (!isset($this->staticProperties[$className])) {
+            $this->staticProperties[$className] = [];
         }
 
-        $this->staticAttributes[$className][$attributeName] = true;
+        $this->staticProperties[$className][$propertyName] = true;
     }
 
     public function isGlobalVariableExcluded(string $variableName): bool
@@ -69,7 +69,7 @@ final class ExcludeList
     /**
      * @psalm-param class-string $className
      */
-    public function isStaticAttributeExcluded(string $className, string $attributeName): bool
+    public function isStaticPropertyExcluded(string $className, string $propertyName): bool
     {
         if (in_array($className, $this->classes, true)) {
             return true;
@@ -95,6 +95,6 @@ final class ExcludeList
             }
         }
 
-        return isset($this->staticAttributes[$className][$attributeName]);
+        return isset($this->staticProperties[$className][$propertyName]);
     }
 }

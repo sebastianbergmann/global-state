@@ -46,7 +46,7 @@ class Snapshot
 
     private array $superGlobalVariables = [];
 
-    private array $staticAttributes = [];
+    private array $staticProperties = [];
 
     private array $iniSettings = [];
 
@@ -62,7 +62,7 @@ class Snapshot
 
     private array $traits = [];
 
-    public function __construct(ExcludeList $excludeList = null, bool $includeGlobalVariables = true, bool $includeStaticAttributes = true, bool $includeConstants = true, bool $includeFunctions = true, bool $includeClasses = true, bool $includeInterfaces = true, bool $includeTraits = true, bool $includeIniSettings = true, bool $includeIncludedFiles = true)
+    public function __construct(ExcludeList $excludeList = null, bool $includeGlobalVariables = true, bool $includeStaticProperties = true, bool $includeConstants = true, bool $includeFunctions = true, bool $includeClasses = true, bool $includeInterfaces = true, bool $includeTraits = true, bool $includeIniSettings = true, bool $includeIncludedFiles = true)
     {
         $this->excludeList = $excludeList ?: new ExcludeList;
 
@@ -74,7 +74,7 @@ class Snapshot
             $this->snapshotFunctions();
         }
 
-        if ($includeClasses || $includeStaticAttributes) {
+        if ($includeClasses || $includeStaticProperties) {
             $this->snapshotClasses();
         }
 
@@ -87,8 +87,8 @@ class Snapshot
             $this->snapshotGlobals();
         }
 
-        if ($includeStaticAttributes) {
-            $this->snapshotStaticAttributes();
+        if ($includeStaticProperties) {
+            $this->snapshotStaticProperties();
         }
 
         if ($includeIniSettings) {
@@ -124,9 +124,9 @@ class Snapshot
         return $this->superGlobalArrays;
     }
 
-    public function staticAttributes(): array
+    public function staticProperties(): array
     {
-        return $this->staticAttributes;
+        return $this->staticProperties;
     }
 
     public function iniSettings(): array
@@ -241,27 +241,27 @@ class Snapshot
         }
     }
 
-    private function snapshotStaticAttributes(): void
+    private function snapshotStaticProperties(): void
     {
         foreach ($this->classes as $className) {
             $class    = new ReflectionClass($className);
             $snapshot = [];
 
-            foreach ($class->getProperties() as $attribute) {
-                if ($attribute->isStatic()) {
-                    $name = $attribute->getName();
+            foreach ($class->getProperties() as $property) {
+                if ($property->isStatic()) {
+                    $name = $property->getName();
 
-                    if ($this->excludeList->isStaticAttributeExcluded($className, $name)) {
+                    if ($this->excludeList->isStaticPropertyExcluded($className, $name)) {
                         continue;
                     }
 
-                    $attribute->setAccessible(true);
+                    $property->setAccessible(true);
 
-                    if (!$attribute->isInitialized()) {
+                    if (!$property->isInitialized()) {
                         continue;
                     }
 
-                    $value = $attribute->getValue();
+                    $value = $property->getValue();
 
                     if ($this->canBeSerialized($value)) {
                         /* @noinspection UnserializeExploitsInspection */
@@ -271,7 +271,7 @@ class Snapshot
             }
 
             if (!empty($snapshot)) {
-                $this->staticAttributes[$className] = $snapshot;
+                $this->staticProperties[$className] = $snapshot;
             }
         }
     }

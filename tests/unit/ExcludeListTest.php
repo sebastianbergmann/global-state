@@ -39,12 +39,12 @@ final class ExcludeListTest extends TestCase
         $this->assertTrue($this->excludeList->isGlobalVariableExcluded('variable'));
     }
 
-    public function testStaticAttributeThatIsNotExcludedIsNotTreatedAsExcluded(): void
+    public function testStaticPropertyThatIsNotExcludedIsNotTreatedAsExcluded(): void
     {
         $this->assertFalse(
-            $this->excludeList->isStaticAttributeExcluded(
+            $this->excludeList->isStaticPropertyExcluded(
                 ExcludedClass::class,
-                'attribute'
+                'property'
             )
         );
     }
@@ -54,9 +54,9 @@ final class ExcludeListTest extends TestCase
         $this->excludeList->addClass(ExcludedClass::class);
 
         $this->assertTrue(
-            $this->excludeList->isStaticAttributeExcluded(
+            $this->excludeList->isStaticPropertyExcluded(
                 ExcludedClass::class,
-                'attribute'
+                'property'
             )
         );
     }
@@ -66,9 +66,9 @@ final class ExcludeListTest extends TestCase
         $this->excludeList->addSubclassesOf(ExcludedClass::class);
 
         $this->assertTrue(
-            $this->excludeList->isStaticAttributeExcluded(
+            $this->excludeList->isStaticPropertyExcluded(
                 ExcludedChildClass::class,
-                'attribute'
+                'property'
             )
         );
     }
@@ -78,9 +78,9 @@ final class ExcludeListTest extends TestCase
         $this->excludeList->addImplementorsOf(ExcludedInterface::class);
 
         $this->assertTrue(
-            $this->excludeList->isStaticAttributeExcluded(
+            $this->excludeList->isStaticPropertyExcluded(
                 ExcludedImplementor::class,
-                'attribute'
+                'property'
             )
         );
     }
@@ -90,24 +90,24 @@ final class ExcludeListTest extends TestCase
         $this->excludeList->addClassNamePrefix('SebastianBergmann\GlobalState');
 
         $this->assertTrue(
-            $this->excludeList->isStaticAttributeExcluded(
+            $this->excludeList->isStaticPropertyExcluded(
                 ExcludedClass::class,
-                'attribute'
+                'property'
             )
         );
     }
 
-    public function testStaticAttributeCanBeExcluded(): void
+    public function testStaticPropertyCanBeExcluded(): void
     {
-        $this->excludeList->addStaticAttribute(
+        $this->excludeList->addStaticProperty(
             ExcludedClass::class,
-            'attribute'
+            'property'
         );
 
         $this->assertTrue(
-            $this->excludeList->isStaticAttributeExcluded(
+            $this->excludeList->isStaticPropertyExcluded(
                 ExcludedClass::class,
-                'attribute'
+                'property'
             )
         );
     }
