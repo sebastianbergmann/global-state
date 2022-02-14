@@ -9,6 +9,7 @@
  */
 namespace SebastianBergmann\GlobalState;
 
+use const PHP_VERSION_ID;
 use function array_keys;
 use function array_merge;
 use function array_reverse;

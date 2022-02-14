@@ -55,14 +55,13 @@ final class SnapshotTest extends TestCase
         $this->assertEquals($expected, $snapshot->staticAttributes());
     }
 
+    /**
+     * @requires PHP 7.4
+     */
     public function testStaticNotInitialisedAttributes(): void
     {
-        if (PHP_VERSION_ID < 70400) {
-            $this->markTestSkipped('Requires PHP 7.4+');
-        }
-
         /* @noinspection PhpExpressionResultUnusedInspection */
-        new SnapshotClassTyped();
+        new SnapshotClassTyped;
 
         $this->excludeAllLoadedClassesExceptClass(SnapshotClassTyped::class);
 
@@ -77,12 +76,11 @@ final class SnapshotTest extends TestCase
         $this->assertEquals($expected, $snapshot->staticAttributes());
     }
 
+    /**
+     * @requires PHP 7.4
+     */
     public function testStaticInitialisedAttributes(): void
     {
-        if (PHP_VERSION_ID < 70400) {
-            $this->markTestSkipped('Requires PHP 7.4+');
-        }
-
         SnapshotClassTyped::init();
 
         $this->excludeAllLoadedClassesExceptClass(SnapshotClassTyped::class);
