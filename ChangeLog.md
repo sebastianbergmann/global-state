@@ -2,7 +2,7 @@
 
 All notable changes in `sebastian/global-state` are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [6.0.0] - 2021-MM-DD
+## [6.0.0] - 2022-MM-DD
 
 ### Changed
 
@@ -14,7 +14,7 @@ All notable changes in `sebastian/global-state` are documented in this file usin
 ### Removed
 
 * Removed `SebastianBergmann\GlobalState\Restorer::restoreFunctions()`
-* This component is no longer supported on PHP 7
+* This component is no longer supported on PHP 7.3, PHP 7.4 and PHP 8.0
 
 ## [5.0.5] - 2022-02-14
 
