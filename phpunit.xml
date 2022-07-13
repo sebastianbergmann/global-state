@@ -10,8 +10,7 @@
          failOnRisky="true"
          failOnWarning="true"
          processIsolation="true"
-         colors="true"
-         verbose="true">
+         colors="true">
     <testsuites>
         <testsuite name="default">
             <directory>tests/unit</directory>
