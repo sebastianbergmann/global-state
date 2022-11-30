@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.x-dev@">
+<files psalm-version="dev-master@">
   <file src="src/Snapshot.php">
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>get_declared_traits()</code>
