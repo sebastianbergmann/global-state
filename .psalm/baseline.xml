@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="dev-master@">
+  <file src="src/ExcludeList.php">
+    <RedundantCondition occurrences="2">
+      <code>$class-&gt;implementsInterface($type)</code>
+      <code>$class-&gt;isSubclassOf($type)</code>
+    </RedundantCondition>
+  </file>
   <file src="src/Snapshot.php">
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>get_declared_traits()</code>
