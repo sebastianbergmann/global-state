@@ -39,28 +39,17 @@ use Throwable;
 class Snapshot
 {
     private ExcludeList $excludeList;
-
-    private array $globalVariables = [];
-
-    private array $superGlobalArrays = [];
-
+    private array $globalVariables      = [];
+    private array $superGlobalArrays    = [];
     private array $superGlobalVariables = [];
-
-    private array $staticProperties = [];
-
-    private array $iniSettings = [];
-
-    private array $includedFiles = [];
-
-    private array $constants = [];
-
-    private array $functions = [];
-
-    private array $interfaces = [];
-
-    private array $classes = [];
-
-    private array $traits = [];
+    private array $staticProperties     = [];
+    private array $iniSettings          = [];
+    private array $includedFiles        = [];
+    private array $constants            = [];
+    private array $functions            = [];
+    private array $interfaces           = [];
+    private array $classes              = [];
+    private array $traits               = [];
 
     public function __construct(ExcludeList $excludeList = null, bool $includeGlobalVariables = true, bool $includeStaticProperties = true, bool $includeConstants = true, bool $includeFunctions = true, bool $includeClasses = true, bool $includeInterfaces = true, bool $includeTraits = true, bool $includeIniSettings = true, bool $includeIncludedFiles = true)
     {

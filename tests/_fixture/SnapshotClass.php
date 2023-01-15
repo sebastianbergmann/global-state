@@ -15,19 +15,16 @@ use stdClass;
 
 class SnapshotClass
 {
-    private static $string = 'string';
-
-    private static $closures = [];
-
-    private static $files = [];
-
+    private static $string    = 'string';
+    private static $closures  = [];
+    private static $files     = [];
     private static $resources = [];
-
-    private static $objects = [];
+    private static $objects   = [];
 
     public static function init(): void
     {
-        self::$closures[] = static function (): void {
+        self::$closures[] = static function (): void
+        {
         };
 
         self::$files[] = new SplFileInfo(__FILE__);

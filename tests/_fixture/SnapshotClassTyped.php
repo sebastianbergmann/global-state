@@ -12,7 +12,6 @@ namespace SebastianBergmann\GlobalState\TestFixture;
 class SnapshotClassTyped
 {
     private static bool $bool = true;
-
     private static string $string;
 
     public static function init(): void

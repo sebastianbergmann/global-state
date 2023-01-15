@@ -15,17 +15,12 @@ use ReflectionClass;
 
 final class ExcludeList
 {
-    private array $globalVariables = [];
-
-    private array $classes = [];
-
+    private array $globalVariables   = [];
+    private array $classes           = [];
     private array $classNamePrefixes = [];
-
-    private array $parentClasses = [];
-
-    private array $interfaces = [];
-
-    private array $staticProperties = [];
+    private array $parentClasses     = [];
+    private array $interfaces        = [];
+    private array $staticProperties  = [];
 
     public function addGlobalVariable(string $variableName): void
     {

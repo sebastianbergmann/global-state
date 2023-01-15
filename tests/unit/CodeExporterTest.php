@@ -9,6 +9,7 @@
  */
 namespace SebastianBergmann\GlobalState;
 
+use function array_keys;
 use function define;
 use function ini_get;
 use function ini_set;
