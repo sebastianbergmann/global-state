@@ -17,6 +17,9 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \SebastianBergmann\GlobalState\CodeExporter
+ *
+ * @uses \SebastianBergmann\GlobalState\ExcludeList
+ * @uses \SebastianBergmann\GlobalState\Snapshot
  */
 final class CodeExporterTest extends TestCase
 {
