@@ -13,14 +13,13 @@ use function array_keys;
 use function define;
 use function ini_get;
 use function ini_set;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \SebastianBergmann\GlobalState\CodeExporter
- *
- * @uses \SebastianBergmann\GlobalState\ExcludeList
- * @uses \SebastianBergmann\GlobalState\Snapshot
- */
+#[CoversClass(CodeExporter::class)]
+#[UsesClass(ExcludeList::class)]
+#[UsesClass(Snapshot::class)]
 final class CodeExporterTest extends TestCase
 {
     public function testCanExportGlobalVariablesToCode(): void

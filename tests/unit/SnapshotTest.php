@@ -12,6 +12,8 @@ namespace SebastianBergmann\GlobalState;
 use function get_declared_classes;
 use function spl_autoload_call;
 use Countable;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\GlobalState\TestFixture\ExcludedClass;
 use SebastianBergmann\GlobalState\TestFixture\ExcludedInterface;
@@ -20,11 +22,8 @@ use SebastianBergmann\GlobalState\TestFixture\SnapshotClassTyped;
 use SebastianBergmann\GlobalState\TestFixture\SnapshotTrait;
 use stdClass;
 
-/**
- * @covers \SebastianBergmann\GlobalState\Snapshot
- *
- * @uses \SebastianBergmann\GlobalState\ExcludeList
- */
+#[CoversClass(Snapshot::class)]
+#[UsesClass(ExcludeList::class)]
 final class SnapshotTest extends TestCase
 {
     private ExcludeList $excludeList;

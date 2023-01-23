@@ -9,15 +9,14 @@
  */
 namespace SebastianBergmann\GlobalState;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\GlobalState\TestFixture\ExcludedChildClass;
 use SebastianBergmann\GlobalState\TestFixture\ExcludedClass;
 use SebastianBergmann\GlobalState\TestFixture\ExcludedImplementor;
 use SebastianBergmann\GlobalState\TestFixture\ExcludedInterface;
 
-/**
- * @covers \SebastianBergmann\GlobalState\ExcludeList
- */
+#[CoversClass(ExcludeList::class)]
 final class ExcludeListTest extends TestCase
 {
     private ExcludeList $excludeList;

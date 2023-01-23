@@ -9,14 +9,14 @@
  */
 namespace SebastianBergmann\GlobalState;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \SebastianBergmann\GlobalState\Restorer
- *
- * @uses \SebastianBergmann\GlobalState\ExcludeList
- * @uses \SebastianBergmann\GlobalState\Snapshot
- */
+#[CoversClass(Restorer::class)]
+#[UsesClass(ExcludeList::class)]
+#[UsesClass(Snapshot::class)]
 final class RestorerTest extends TestCase
 {
     public static function setUpBeforeClass(): void
@@ -50,9 +50,7 @@ final class RestorerTest extends TestCase
         $this->assertEquals(0, $_GET['varGet']);
     }
 
-    /**
-     * @depends testIntegrationRestorerGlobalVariables
-     */
+    #[Depends('testIntegrationRestorerGlobalVariables')]
     public function testIntegrationRestorerGlobalVariables2(): void
     {
         $this->assertArrayHasKey('varBool', $GLOBALS);
