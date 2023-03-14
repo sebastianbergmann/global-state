@@ -10,6 +10,10 @@
             "email": "sebastian@phpunit.de"
         }
     ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/global-state/issues",
+        "security": "https://github.com/sebastianbergmann/global-state/security/policy"
+    },
     "prefer-stable": true,
     "config": {
         "platform": {
