@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="dev-master@">
+<files psalm-version="5.11.0@c9b192ab8400fdaf04b2b13d110575adc879aa90">
   <file src="src/ExcludeList.php">
-    <RedundantCondition occurrences="2">
-      <code>$class-&gt;implementsInterface($type)</code>
-      <code>$class-&gt;isSubclassOf($type)</code>
+    <RedundantCondition>
+      <code><![CDATA[$class->implementsInterface($type)]]></code>
+      <code><![CDATA[$class->isSubclassOf($type)]]></code>
     </RedundantCondition>
-  </file>
-  <file src="src/Snapshot.php">
-    <PossiblyNullPropertyAssignmentValue occurrences="1">
-      <code>get_declared_traits()</code>
-    </PossiblyNullPropertyAssignmentValue>
   </file>
 </files>
