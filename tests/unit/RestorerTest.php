@@ -13,6 +13,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use SebastianBergmann\GlobalState\TestFixture\ClassWithPublicStaticProperty;
 
 #[CoversClass(Restorer::class)]
 #[UsesClass(ExcludeList::class)]
@@ -59,5 +60,19 @@ final class RestorerTest extends TestCase
         $this->assertEquals(null, $GLOBALS['varNull']);
         $this->assertArrayHasKey('varGet', $_GET);
         $this->assertEquals(0, $_GET['varGet']);
+    }
+
+    public function testRestoresStaticProperties(): void
+    {
+        ClassWithPublicStaticProperty::$property = 'original';
+
+        $snapshot = new Snapshot(null, false, true, false, false, false, false, false, false, false);
+
+        ClassWithPublicStaticProperty::$property = 'changed';
+
+        $restorer = new Restorer;
+        $restorer->restoreStaticProperties($snapshot);
+
+        $this->assertSame('original', ClassWithPublicStaticProperty::$property);
     }
 }
