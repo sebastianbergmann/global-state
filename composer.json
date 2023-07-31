@@ -2,7 +2,7 @@
     "name": "sebastian/global-state",
     "description": "Snapshotting of global state",
     "keywords": ["global state"],
-    "homepage": "http://www.github.com/sebastianbergmann/global-state",
+    "homepage": "https://www.github.com/sebastianbergmann/global-state",
     "license": "BSD-3-Clause",
     "authors": [
         {
