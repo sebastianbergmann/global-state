@@ -34,7 +34,7 @@ use Throwable;
 /**
  * A snapshot of global state.
  */
-class Snapshot
+final class Snapshot
 {
     private ExcludeList $excludeList;
     private array $globalVariables      = [];
