@@ -90,8 +90,8 @@ final class Restorer
             $keys = array_keys(
                 array_merge(
                     $GLOBALS[$superGlobalArray],
-                    $superGlobalVariables[$superGlobalArray]
-                )
+                    $superGlobalVariables[$superGlobalArray],
+                ),
             );
 
             foreach ($keys as $key) {
