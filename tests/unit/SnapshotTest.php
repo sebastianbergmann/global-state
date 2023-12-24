@@ -99,7 +99,7 @@ final class SnapshotTest extends TestCase
             false,
             false,
             false,
-            false
+            false,
         );
 
         $this->assertEmpty($snapshot->constants());
@@ -126,7 +126,7 @@ final class SnapshotTest extends TestCase
             false,
             false,
             false,
-            false
+            false,
         );
 
         $this->assertSame($this->excludeList, $snapshot->excludeList());

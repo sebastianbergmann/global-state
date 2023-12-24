@@ -330,7 +330,7 @@ final class Snapshot
                     /** @noinspection SlowArrayOperationsInLoopInspection */
                     $result = array_merge(
                         $result,
-                        $this->enumerateObjectsAndResources($element, $processed)
+                        $this->enumerateObjectsAndResources($element, $processed),
                     );
                 } else {
                     $result[] = $element;
@@ -348,7 +348,7 @@ final class Snapshot
                     /** @noinspection SlowArrayOperationsInLoopInspection */
                     $result = array_merge(
                         $result,
-                        $this->enumerateObjectsAndResources($value, $processed)
+                        $this->enumerateObjectsAndResources($value, $processed),
                     );
                 } else {
                     $result[] = $value;

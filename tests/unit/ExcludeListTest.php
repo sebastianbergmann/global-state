@@ -43,8 +43,8 @@ final class ExcludeListTest extends TestCase
         $this->assertFalse(
             $this->excludeList->isStaticPropertyExcluded(
                 ExcludedClass::class,
-                'property'
-            )
+                'property',
+            ),
         );
     }
 
@@ -55,8 +55,8 @@ final class ExcludeListTest extends TestCase
         $this->assertTrue(
             $this->excludeList->isStaticPropertyExcluded(
                 ExcludedClass::class,
-                'property'
-            )
+                'property',
+            ),
         );
     }
 
@@ -67,8 +67,8 @@ final class ExcludeListTest extends TestCase
         $this->assertTrue(
             $this->excludeList->isStaticPropertyExcluded(
                 ExcludedChildClass::class,
-                'property'
-            )
+                'property',
+            ),
         );
     }
 
@@ -79,8 +79,8 @@ final class ExcludeListTest extends TestCase
         $this->assertTrue(
             $this->excludeList->isStaticPropertyExcluded(
                 ExcludedImplementor::class,
-                'property'
-            )
+                'property',
+            ),
         );
     }
 
@@ -91,8 +91,8 @@ final class ExcludeListTest extends TestCase
         $this->assertTrue(
             $this->excludeList->isStaticPropertyExcluded(
                 ExcludedClass::class,
-                'property'
-            )
+                'property',
+            ),
         );
     }
 
@@ -100,14 +100,14 @@ final class ExcludeListTest extends TestCase
     {
         $this->excludeList->addStaticProperty(
             ExcludedClass::class,
-            'property'
+            'property',
         );
 
         $this->assertTrue(
             $this->excludeList->isStaticPropertyExcluded(
                 ExcludedClass::class,
-                'property'
-            )
+                'property',
+            ),
         );
     }
 }

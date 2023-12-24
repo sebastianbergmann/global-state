@@ -61,7 +61,7 @@ EOT;
 
         $this->assertMatchesRegularExpression(
             $pattern,
-            $export
+            $export,
         );
     }
 
@@ -75,7 +75,7 @@ EOT;
 
         $this->assertStringContainsString(
             "if (!defined('FOO')) define('FOO', 'BAR');",
-            $exporter->constants($snapshot)
+            $exporter->constants($snapshot),
         );
     }
 

@@ -27,7 +27,7 @@ final class CodeExporter
                 'if (!defined(\'%s\')) define(\'%s\', %s);' . "\n",
                 $name,
                 $name,
-                $this->exportVariable($value)
+                $this->exportVariable($value),
             );
         }
 
@@ -53,7 +53,7 @@ EOT;
             $result .= sprintf(
                 '$GLOBALS[%s] = %s;' . PHP_EOL,
                 $this->exportVariable($name),
-                $this->exportVariable($value)
+                $this->exportVariable($value),
             );
         }
 
@@ -68,7 +68,7 @@ EOT;
             $result .= sprintf(
                 '@ini_set(%s, %s);' . "\n",
                 $this->exportVariable($key),
-                $this->exportVariable($value)
+                $this->exportVariable($value),
             );
         }
 
