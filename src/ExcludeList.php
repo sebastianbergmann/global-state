@@ -10,7 +10,7 @@
 namespace SebastianBergmann\GlobalState;
 
 use function in_array;
-use function strpos;
+use function str_starts_with;
 use ReflectionClass;
 
 final class ExcludeList
@@ -71,7 +71,7 @@ final class ExcludeList
         }
 
         foreach ($this->classNamePrefixes as $prefix) {
-            if (strpos($className, $prefix) === 0) {
+            if (str_starts_with($className, $prefix)) {
                 return true;
             }
         }
