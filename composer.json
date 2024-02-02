@@ -15,7 +15,6 @@
         "security": "https://github.com/sebastianbergmann/global-state/security/policy"
     },
     "prefer-stable": true,
-    "minimum-stability": "dev",
     "config": {
         "platform": {
             "php": "8.2.0"
