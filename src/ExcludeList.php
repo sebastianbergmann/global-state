@@ -62,7 +62,7 @@ final class ExcludeList
     }
 
     /**
-     * @psalm-param class-string $className
+     * @param class-string $className
      */
     public function isStaticPropertyExcluded(string $className, string $propertyName): bool
     {
