@@ -95,7 +95,7 @@ final class Restorer
             );
 
             foreach ($keys as $key) {
-                if (isset($superGlobalVariables[$superGlobalArray][$key])) {
+                if (array_key_exists($key, $superGlobalVariables[$superGlobalArray])) {
                     $GLOBALS[$superGlobalArray][$key] = $superGlobalVariables[$superGlobalArray][$key];
                 } else {
                     unset($GLOBALS[$superGlobalArray][$key]);
