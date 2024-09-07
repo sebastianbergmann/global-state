@@ -29,7 +29,7 @@
     },
     "require-dev": {
         "ext-dom": "*",
-        "phpunit/phpunit": "^10.0"
+        "phpunit/phpunit": "^10.5"
     },
     "autoload": {
         "classmap": [
