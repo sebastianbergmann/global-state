@@ -53,7 +53,11 @@ final class SnapshotTest extends TestCase
 
     public function testStaticNotInitialisedAttributes(): void
     {
-        /* @noinspection PhpExpressionResultUnusedInspection */
+        /**
+         * @noinspection PhpExpressionResultUnusedInspection
+         *
+         * @phpstan-ignore new.resultUnused
+         */
         new SnapshotClassTyped;
 
         $this->excludeAllLoadedClassesExceptClass(SnapshotClassTyped::class);
@@ -159,7 +163,11 @@ final class SnapshotTest extends TestCase
 
     public function testInterfaces(): void
     {
-        /* @noinspection PhpExpressionResultUnusedInspection */
+        /**
+         * @noinspection PhpExpressionResultUnusedInspection
+         *
+         * @phpstan-ignore new.resultUnused
+         */
         new ExcludedClass;
 
         $snapshot   = new Snapshot($this->excludeList, false, false, false, false, false, true, false, false, false);
