@@ -239,7 +239,6 @@ final class Snapshot
         $constants = get_defined_constants(true);
 
         if (isset($constants['user'])) {
-            /* @phpstan-ignore assign.propertyType */
             $this->constants = $constants['user'];
         }
     }
