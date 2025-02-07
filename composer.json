@@ -14,7 +14,6 @@
         "issues": "https://github.com/sebastianbergmann/global-state/issues",
         "security": "https://github.com/sebastianbergmann/global-state/security/policy"
     },
-    "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
         "platform": {
@@ -30,7 +29,7 @@
     },
     "require-dev": {
         "ext-dom": "*",
-        "phpunit/phpunit": "^12.0-dev"
+        "phpunit/phpunit": "^12.0"
     },
     "autoload": {
         "classmap": [
