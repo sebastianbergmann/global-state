@@ -342,7 +342,7 @@ final class Snapshot
                 }
             }
 
-            if (!empty($snapshot)) {
+            if ($snapshot !== []) {
                 $this->staticProperties[$className] = $snapshot;
             }
         }
@@ -402,7 +402,7 @@ final class Snapshot
         $result = [];
 
         /* @phpstan-ignore argument.type */
-        if ($processed->contains($variable)) {
+        if ($processed->contains($variable) !== false) {
             return $result;
         }
 
