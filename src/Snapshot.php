@@ -298,7 +298,10 @@ class Snapshot
                         continue;
                     }
 
-                    $attribute->setAccessible(true);
+                    if (version_compare(PHP_VERSION, '8.1.0', '<')) {
+                        $attribute->setAccessible(true);
+                    }
+
                     $value = $attribute->getValue();
 
                     if ($this->canBeSerialized($value)) {
