@@ -295,10 +295,11 @@ final class Snapshot
         foreach (array_keys($GLOBALS) as $key) {
             if ($key !== 'GLOBALS' &&
                 !in_array($key, $superGlobalArrays, true) &&
-                $this->canBeSerialized($GLOBALS[$key]) &&
-                !$this->excludeList->isGlobalVariableExcluded($key)) {
+                !$this->excludeList->isGlobalVariableExcluded($key) &&
+                $this->canBeSerialized($GLOBALS[$key])
+            ) {
                 /* @phpstan-ignore assign.propertyType */
-                $this->globalVariables[$key] = unserialize(serialize($GLOBALS[$key]));
+                $this->globalVariables[$key] = $this->copyWithSerialize($GLOBALS[$key]);
             }
         }
     }
@@ -310,7 +311,7 @@ final class Snapshot
         if (isset($GLOBALS[$superGlobalArray]) && is_array($GLOBALS[$superGlobalArray])) {
             foreach ($GLOBALS[$superGlobalArray] as $key => $value) {
                 /* @phpstan-ignore assign.propertyType */
-                $this->superGlobalVariables[$superGlobalArray][$key] = unserialize(serialize($value));
+                $this->superGlobalVariables[$superGlobalArray][$key] = $this->copyWithSerialize($value);
             }
         }
     }
@@ -336,8 +337,7 @@ final class Snapshot
                     $value = $property->getValue();
 
                     if ($this->canBeSerialized($value)) {
-                        /* @noinspection UnserializeExploitsInspection */
-                        $snapshot[$name] = unserialize(serialize($value));
+                        $snapshot[$name] = $this->copyWithSerialize($value);
                     }
                 }
             }
@@ -359,6 +359,16 @@ final class Snapshot
             '_FILES',
             '_REQUEST',
         ];
+    }
+
+    private function copyWithSerialize(mixed $variable): mixed
+    {
+        if (is_scalar($variable) || $variable === null) {
+            return $variable;
+        }
+
+        /* @noinspection UnserializeExploitsInspection */
+        return unserialize(serialize($variable));
     }
 
     private function canBeSerialized(mixed $variable): bool
