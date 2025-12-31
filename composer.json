@@ -14,22 +14,23 @@
         "issues": "https://github.com/sebastianbergmann/global-state/issues",
         "security": "https://github.com/sebastianbergmann/global-state/security/policy"
     },
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
         "platform": {
-            "php": "8.3.0"
+            "php": "8.4.1"
         },
         "optimize-autoloader": true,
         "sort-packages": true
     },
     "require": {
-        "php": ">=8.3",
-        "sebastian/object-reflector": "^5.0",
-        "sebastian/recursion-context": "^7.0"
+        "php": ">=8.4",
+        "sebastian/object-reflector": "^6.0",
+        "sebastian/recursion-context": "^8.0"
     },
     "require-dev": {
         "ext-dom": "*",
-        "phpunit/phpunit": "^12.0"
+        "phpunit/phpunit": "^13.0"
     },
     "autoload": {
         "classmap": [
@@ -46,7 +47,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "8.0-dev"
+            "dev-main": "9.0-dev"
         }
     }
 }
