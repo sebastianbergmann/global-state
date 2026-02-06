@@ -14,7 +14,6 @@
         "issues": "https://github.com/sebastianbergmann/global-state/issues",
         "security": "https://github.com/sebastianbergmann/global-state/security/policy"
     },
-    "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
         "platform": {
