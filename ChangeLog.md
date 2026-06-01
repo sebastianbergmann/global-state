@@ -14,7 +14,7 @@ All notable changes in `sebastian/global-state` are documented in this file usin
 
 * This component is no longer supported on PHP 8.3
 
-## [8.0.3] - 2026-MM-DD
+## [8.0.3] - 2026-06-01
 
 ### Fixed
 
@@ -148,7 +148,7 @@ All notable changes in `sebastian/global-state` are documented in this file usin
 
 [9.0.1]: https://github.com/sebastianbergmann/global-state/compare/9.0.0...main
 [9.0.0]: https://github.com/sebastianbergmann/global-state/compare/8.0...9.0.0
-[8.0.3]: https://github.com/sebastianbergmann/global-state/compare/8.0.2...8.0
+[8.0.3]: https://github.com/sebastianbergmann/global-state/compare/8.0.2...8.0.3
 [8.0.2]: https://github.com/sebastianbergmann/global-state/compare/8.0.1...8.0.2
 [8.0.1]: https://github.com/sebastianbergmann/global-state/compare/8.0.0...8.0.1
 [8.0.0]: https://github.com/sebastianbergmann/global-state/compare/7.0...8.0.0
