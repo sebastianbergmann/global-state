@@ -79,6 +79,27 @@ EOT;
         );
     }
 
+    public function testEscapesConstantNamesWhenExportingToCode(): void
+    {
+        define("evil' . phpinfo() . '", true);
+
+        $snapshot = new Snapshot(null, false, false, true, false, false, false, false, false, false);
+
+        $exporter = new CodeExporter;
+
+        $code = $exporter->constants($snapshot);
+
+        $this->assertStringContainsString(
+            "if (!defined('evil\\' . phpinfo() . \\'')) define('evil\\' . phpinfo() . \\'', true);",
+            $code,
+        );
+
+        $this->assertStringNotContainsString(
+            "if (!defined('evil' . phpinfo() . '')",
+            $code,
+        );
+    }
+
     /**
      * @see https://github.com/sebastianbergmann/global-state/issues/31
      * @see https://wiki.php.net/rfc/restrict_globals_usage
