@@ -106,16 +106,16 @@ final class SnapshotTest extends TestCase
             false,
         );
 
-        $this->assertEmpty($snapshot->constants());
-        $this->assertEmpty($snapshot->functions());
-        $this->assertEmpty($snapshot->globalVariables());
-        $this->assertEmpty($snapshot->includedFiles());
-        $this->assertEmpty($snapshot->iniSettings());
-        $this->assertEmpty($snapshot->interfaces());
-        $this->assertEmpty($snapshot->staticProperties());
-        $this->assertEmpty($snapshot->superGlobalArrays());
-        $this->assertEmpty($snapshot->superGlobalVariables());
-        $this->assertEmpty($snapshot->traits());
+        $this->assertCount(0, $snapshot->constants());
+        $this->assertCount(0, $snapshot->functions());
+        $this->assertCount(0, $snapshot->globalVariables());
+        $this->assertCount(0, $snapshot->includedFiles());
+        $this->assertCount(0, $snapshot->iniSettings());
+        $this->assertCount(0, $snapshot->interfaces());
+        $this->assertCount(0, $snapshot->staticProperties());
+        $this->assertCount(0, $snapshot->superGlobalArrays());
+        $this->assertCount(0, $snapshot->superGlobalVariables());
+        $this->assertCount(0, $snapshot->traits());
     }
 
     public function testExcludeListCanBeAccessed(): void
